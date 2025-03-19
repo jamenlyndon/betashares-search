@@ -1,2 +1,2 @@
-# betashares-search
+# Betashares Search
 Coding test for Betashares
