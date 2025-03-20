@@ -6,8 +6,9 @@
 	"scripts": {
 		"sass": "sass --style compressed --no-source-map --watch .",
 		"js": "esbuild ./js/script.js --bundle --outfile=./js/script.min.js --minify",
+		"lint": "concurrently \"npx eslint **/*.js --ignore-pattern *.min.js --fix\" \"stylelint **/*.scss --fix\"",
 		"serve": "node --watch index.js",
-		"watch": "concurrently \"npm run sass\" \"npm run js\" \"npm run serve\""
+		"watch": "concurrently \"npm run sass\" \"npm run js\" \"npm run lint\" \"npm run serve\""
 	},
 	"repository": {
 		"type": "git",
@@ -25,8 +26,14 @@
 		"http-status-codes": "^2.3.0"
 	},
 	"devDependencies": {
+		"@stylistic/eslint-plugin": "^2.11.0",
 		"concurrently": "^9.1.2",
 		"esbuild": "^0.25.1",
-		"sass": "^1.86.0"
+		"eslint": "^8",
+		"postcss-scss": "^4.0.9",
+		"sass": "^1.86.0",
+		"stylelint": "^16.16.0",
+		"stylelint-order": "^6.0.4",
+		"stylelint-scss": "^6.11.1"
 	}
 }

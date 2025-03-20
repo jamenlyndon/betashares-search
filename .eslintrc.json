@@ -1,0 +1,223 @@
+{
+	"extends": [],
+	"plugins": ["@stylistic"],
+	"env": {
+		"es6": true
+  },
+	"rules": {
+		/* ESLint configuration (https://eslint.org/docs/latest/rules/)
+		---------------------------------------------------------------------------------------------------- */
+		// Alow require imports
+		"@typescript-eslint/no-require-imports": 0,
+
+		// Enforce semicolons
+		"semi": ["error", "always"],
+
+		// Enforce newlines after curly braces
+		"brace-style": ["error", "stroustrup"],
+
+		// Disallow spaces inside array brackets (e.g. [ 1, 2, 3 ] must be [1, 2, 3])
+		"array-bracket-spacing": ["error", "never"],
+
+		// Disallow duplicate imports
+		"no-duplicate-imports": "error",
+
+		// Disallow duplicate case statements
+		"no-duplicate-case": "error",
+
+		// Disallow reassigning function names
+		"no-func-assign": "error",
+
+		// Disallow reassigning names imports
+		"no-import-assign": "error",
+
+		// Disallow comparisons between the exact same values
+		"no-self-compare": "error",
+
+		// Disallow double ups on commas inside arrays
+		"no-sparse-arrays": "error",
+
+		// Disallow unreachable code after return, break, etc
+		"no-unreachable": "error",
+
+		// Enforce curly braces around arrow function bodies (we actively discourage shorthand in favor of readability)
+		"arrow-body-style": ["error", "always"],
+
+		// Enforce curly braces (we actively discourage shorthand in favor of readability)
+		"curly": ["error", "all"],
+
+		// Enforce type-safe equality operators (e.g. "===" and "!==")
+		"eqeqeq": "error",
+
+		// Disallow console.log (you can use this during development of course, but we cannot deploy it on production or merge it into a branch)
+		"no-console": "error",
+
+		// Disallow empty block statements
+		"no-empty": "error",
+
+		// Disallow empty static blocks
+		"no-empty-static-block": "error",
+
+		// Disallow unnecessary double boolean casting
+		"no-extra-boolean-cast": "error",
+
+		// Disallow assignments to native objects or read-only global variables
+		"no-global-assign": "error",
+
+		// Disallow shorthand type conversions
+		"no-implicit-coercion": "error",
+
+		// Prefer the use of "const"
+		"prefer-const": "error",
+
+		// Disallow the use of eval()-like methods
+		"no-implied-eval": "error",
+
+		// Disallow use of this in contexts where the value of this is undefined
+		"no-invalid-this": "error",
+
+		// Disallow the use of the __iterator__ property
+		"no-iterator": "error",
+
+		// Disallow unnecessary nested blocks
+		"no-lone-blocks": "error",
+
+		// Disallow function declarations that contain unsafe references inside loop statements
+		"no-loop-func": "error",
+
+		// Disallow use of chained assignment expressions
+		"no-multi-assign": "error",
+
+		// Disallow nested ternary expressions (we actively discourage shorthand in favor of readability)
+		"no-nested-ternary": "error",
+
+		// Disallow octal literals
+		"no-octal": "error",
+
+		// Disallow variable redeclaration
+		"no-redeclare": "error",
+
+		// Disallow assignment operators in return statements (we actively discourage shorthand in favor of readability)
+		"no-return-assign": "error",
+
+		// Disallow comma operators (we actively discourage shorthand in favor of readability)
+		"no-sequences": "error",
+
+		// Disallow variable declarations from shadowing variables declared in the outer scope
+		"no-shadow": "error",
+
+		// Disallow identifiers from shadowing restricted names
+		"no-shadow-restricted-names": "error",
+
+		// Disallow dangling underscores in identifiers
+		"no-underscore-dangle": "error",
+
+		// Disallow ternary operators when simpler alternatives exist (we actively discourage shorthand in favor of readability)
+		"no-unneeded-ternary": "error",
+
+		// Disallow unused labels
+		"no-unused-labels": "error",
+
+		// Disallow unnecessary catch clauses
+		"no-useless-catch": "error",
+
+		// Disallow unnecessary computed property keys in objects and classes
+		"no-useless-computed-key": "error",
+
+		// Disallow unnecessary escape characters
+		"no-useless-escape": "error",
+
+		// Disallow renaming import, export, and destructured assignments to the same name
+		"no-useless-rename": "error",
+
+		// Require let or const instead of var
+		"no-var": "error",
+
+		// Disallow void operators
+		"no-void": "error",
+
+		// Disallow with statements
+		"no-with": "error",
+
+		// Enforce variables to be declared separately (we actively discourage shorthand in favor of readability)
+		"one-var": ["error", "never"],
+
+		// Require rest parameters instead of arguments
+		"prefer-rest-params": "error",
+
+		// Require spread operators instead of .apply()
+		"prefer-spread": "error",
+
+
+		/* ESLint Stylistic configuration (https://eslint.style/packages/default)
+		------------------------------------------------------------------------------------------------- */
+		// Enforce consistent spacing before and after the arrow in arrow functions
+		"@stylistic/arrow-spacing": "error",
+
+		// Disallow trailing commas
+		"@stylistic/comma-dangle": ["error", "never"],
+
+		// Enforce spaces after commas
+		"@stylistic/comma-spacing": "error",
+
+		// Enforce consistent spacing inside computed property brackets (we don't use spaces)
+		"@stylistic/computed-property-spacing": ["error", "never"],
+
+		// Disallow newlines before and after dots
+		"@stylistic/dot-location": ["error", "property"],
+
+		// Enforce newlines at the end of files
+		"@stylistic/eol-last": ["error", "always"],
+
+		// Disallow spacing between function identifiers and their invocations
+		"@stylistic/function-call-spacing": ["error", "never"],
+
+		// Enforce the location of arrow function bodies (same line)
+		"@stylistic/implicit-arrow-linebreak": ["error", "beside"],
+
+		// Enforce tabs for indentation
+		"@stylistic/indent": ["error", "tab"],
+
+		// Enforce correct indentation for binary operators
+		"@stylistic/indent-binary-ops": "error",
+
+		// Enforce consistent spacing between property names and type annotations in types and interfaces (no spaces before colons)
+		"@stylistic/key-spacing": ["error", { "beforeColon": false }],
+
+		// Enforce consistent spacing before and after keywords
+		"@stylistic/keyword-spacing": ["error", { "before": true }],
+
+		// Disallow unnecessary semicolons
+		"@stylistic/no-extra-semi": "error",
+
+		// Disallow mixed binary operators
+		"@stylistic/no-mixed-operators": "error",
+
+		// Disallow multiple spaces
+		"@stylistic/no-multi-spaces": "error",
+
+		// Disallow whitespace before properties
+		"@stylistic/no-whitespace-before-property": "error",
+
+		// Disallow spacing around spread operators
+		"@stylistic/rest-spread-spacing": ["error", "never"],
+
+		// Enforce semicolons at the end of a line
+		"@stylistic/semi-style": ["error", "last"],
+
+		// Enforce consistent spacing before blocks
+		"@stylistic/space-before-blocks": "error",
+
+		// Disallow spaces inside function parenthesis
+		"@stylistic/space-in-parens": ["error", "never"],
+
+		// Enforce a space at the start of a comment
+		"@stylistic/spaced-comment": ["error", "always", { "block": { "balanced": true } }],
+
+		// Enforce spacing around colons of switch statements
+		"@stylistic/switch-colon-spacing": "error",
+
+		// Disallow spacing around embedded expressions of template strings
+		"@stylistic/template-curly-spacing": "error"
+	}
+}
