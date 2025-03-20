@@ -1,0 +1,69 @@
+/* Imports
+---------------------------------------------------------------------------------------------------- */
+@use './variables' as v;
+
+
+
+/* Icon mixin
+---------------------------------------------------------------------------------------------------- */
+@mixin icon($style: 'normal', $size: 'm', $color: 'black') {
+	font-family: 'Material Symbols Outlined';
+	font-weight: normal;
+	font-style: normal;
+	line-height: 1;
+	letter-spacing: normal;
+	text-transform: none;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	-webkit-font-feature-settings: 'liga';
+	-webkit-font-smoothing: antialiased;
+	transform: rotate(0.03deg);
+	transition: color v.$transition-medium linear;
+
+
+	/* Style
+	-------------------------------------------------- */
+	@if ($style == 'thick') {
+		font-family: 'Material Symbols Outlined Thick';
+	}
+
+	@if ($style == 'filled') {
+		font-family: 'Material Symbols Filled';
+	}
+
+
+	/* Size
+	-------------------------------------------------- */
+	@if ($size == 'l') {
+		font-size: 32px;
+	}
+
+	@if ($size == 'm') {
+		font-size: 24px;
+	}
+
+	@if ($size == 's') {
+		font-size: 18px;
+	}
+
+
+	/* Colour
+	-------------------------------------------------- */
+	@if ($color == 'black') {
+		color: v.$color_black;
+	}
+
+	@if ($color == 'grey') {
+		color: v.$color_grey_light_1;
+	}
+
+	@if ($color == 'white') {
+		color: v.$color_white;
+	}
+
+	@if ($color == 'primary') {
+		color: v.$color_primary;
+	}
+}

@@ -1,0 +1,453 @@
+/*
+	How does our typography work?
+	----------------------------------------------------------------------------------------------------
+	We use an innovative system to automatically remove unwanted / unpredictable top and bottom spacing from our typography (which is related to the line height).
+	With this system, all typography automatically aligns to the ascender and baseline of the font.
+
+	This is hugely beneficial as it allows you to, for example, add 16px of padding to a container element and rest assued that the padding will be exactly 16px from the ascender of the font and baseline of the font.
+	Further reading on measuring fonts: https://www.ucda.com/type-terminology-part-3/
+
+	Using this system will likely seem a bit strange at first, but hang in there! You will find it incredibly useful once you get used to it :)
+
+	Eventually we will be able to remove this once the more standard CSS property "text-box-trim" becomes more widley supported:
+	CSS property: https://developer.chrome.com/blog/css-text-box-trim
+	Browser support: https://caniuse.com/mdn-css_properties_text-box-trim
+*/
+
+
+
+/* Imports
+---------------------------------------------------------------------------------------------------- */
+@use './variables' as v;
+
+
+
+/* Headings
+---------------------------------------------------------------------------------------------------- */
+/* H1
+-------------------------------------------------- */
+@mixin text_h1($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 68px;
+	line-height: 68px;
+	letter-spacing: -0.01em;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -10px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -10px;
+	}
+
+	@if ($inheritWeight == false) {
+		font-weight: v.$font_weight_medium;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_6;
+	}
+
+	@if ($responsive) {
+		@media (max-width: v.$breakpoint_l) {
+			font-size: 44px;
+			line-height: 44px;
+
+			&::before {
+				margin-bottom: -6px;
+			}
+
+			&::after {
+				margin-top: -7px;
+			}
+
+			@if ($gap) {
+				padding-bottom: v.$gap_5;
+			}
+		}
+	}
+}
+
+
+/* H2
+-------------------------------------------------- */
+@mixin text_h2($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 56px;
+	line-height: 56px;
+	letter-spacing: 0;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -8px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -9px;
+	}
+
+	@if ($inheritWeight == false) {
+		font-weight: v.$font_weight_medium;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_5;
+	}
+
+	@if ($responsive) {
+		@media (max-width: v.$breakpoint_l) {
+			@include text_h3($gap: $gap, $responsive: false, $inheritWeight: true);
+		}
+	}
+}
+
+
+/* H3
+-------------------------------------------------- */
+@mixin text_h3($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 40px;
+	line-height: 40px;
+	letter-spacing: 0;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -6px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -6px;
+	}
+
+	@if ($inheritWeight == false) {
+		font-weight: v.$font_weight_medium;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_4;
+	}
+
+	@if ($responsive) {
+		@media (max-width: v.$breakpoint_l) {
+			@include text_h4($gap: $gap, $responsive: false, $inheritWeight: true);
+		}
+	}
+}
+
+
+/* H4
+-------------------------------------------------- */
+@mixin text_h4($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 32px;
+	line-height: 32px;
+	letter-spacing: 0;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -4px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -5px;
+	}
+
+	@if ($inheritWeight == false) {
+		font-weight: v.$font_weight_medium;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_3;
+	}
+
+	@if ($responsive) {
+		@media (max-width: v.$breakpoint_l) {
+			@include text_h5($gap: $gap, $responsive: false, $inheritWeight: true);
+		}
+	}
+}
+
+
+/* H5
+-------------------------------------------------- */
+@mixin text_h5($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 24px;
+	line-height: 28.8px;
+	letter-spacing: 0;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -5px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -7px;
+	}
+
+	@if ($inheritWeight == false) {
+		font-weight: v.$font_weight_medium;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_3;
+	}
+
+	@if ($responsive) {
+		@media (max-width: v.$breakpoint_l) {
+			@include text_h6($gap: $gap, $responsive: false, $inheritWeight: true);
+		}
+	}
+}
+
+
+/* H6
+-------------------------------------------------- */
+@mixin text_h6($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 20px;
+	line-height: 24px;
+	letter-spacing: 0;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -5px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -5px;
+	}
+
+	@if ($inheritWeight == false) {
+		font-weight: v.$font_weight_medium;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_2;
+	}
+
+	@if ($responsive) {
+		@media (max-width: v.$breakpoint_l) {
+			@include text_l($gap: $gap, $responsive: false, $inheritWeight: true);
+
+			// Keep the headings font family
+			font-family: v.$font_family_secondary;
+		}
+	}
+}
+
+
+
+/* Text
+---------------------------------------------------------------------------------------------------- */
+/* Large
+-------------------------------------------------- */
+@mixin text_l($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 18px;
+	line-height: 25.2px;
+	letter-spacing: -0.02em;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -5px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -7px;
+	}
+
+	@if ($inheritWeight == false) {
+		font-weight: v.$font_weight_regular;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_2;
+	}
+
+	@if ($responsive) {
+		@media (max-width: v.$breakpoint_l) {
+			@include text_m($gap: $gap, $responsive: false, $inheritWeight: true);
+		}
+	}
+}
+
+
+/* Medium
+-------------------------------------------------- */
+@mixin text_m($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 16px;
+	line-height: 24px;
+	letter-spacing: -0.01em;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -6px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -7px;
+	}
+
+	@if ($inheritWeight == false) {
+		font-weight: v.$font_weight_regular;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_2;
+	}
+
+	@if ($responsive) {
+		@media (max-width: v.$breakpoint_l) {
+			@include text_s($gap: $gap, $responsive: false, $inheritWeight: true);
+		}
+	}
+}
+
+
+/* Small
+-------------------------------------------------- */
+@mixin text_s($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 14px;
+	line-height: 18px;
+	letter-spacing: 0;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -3px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -5px;
+	}
+
+	@if ($inheritWeight == false) {
+		font-weight: v.$font_weight_regular;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_2;
+	}
+
+	@if ($responsive) {
+		// Do not downsize small text (otherwise it becomes too difficult to read)
+	}
+}
+
+
+/* Extra small
+-------------------------------------------------- */
+@mixin text_xs($inheritWeight: false, $gap: true, $responsive: true) {
+	display: block;
+	font-family: v.$font_family_secondary;
+	font-size: 12px;
+	line-height: 16px;
+	letter-spacing: 0;
+
+	&::before {
+		content: '';
+		display: table;
+		margin-bottom: -3px;
+	}
+
+	&::after {
+		content: '';
+		display: table;
+		margin-top: -4px;
+	}
+
+	@if ($inheritWeight) {
+		font-weight: v.$font_weight_regular;
+	}
+
+	@if ($gap) {
+		padding-bottom: v.$gap_2;
+	}
+
+	@if ($responsive) {
+		// Do not downsize extra small text (otherwise it becomes too difficult to read)
+	}
+}
+
+
+
+/* Assign default typography elements / helper classes
+---------------------------------------------------------------------------------------------------- */
+h1 {
+	@include text_h1;
+}
+
+h2 {
+	@include text_h2;
+}
+
+h3 {
+	@include text_h3;
+}
+
+h4 {
+	@include text_h4;
+}
+
+h5 {
+	@include text_h5;
+}
+
+h6 {
+	@include text_h6;
+}
+
+.text_l {
+	@include text_l;
+}
+
+.text_m {
+	@include text_m;
+}
+
+.text_s {
+	@include text_s;
+}
+
+.text_xs {
+	@include text_xs;
+}

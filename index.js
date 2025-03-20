@@ -11,6 +11,9 @@ const fsInstance = require('fs');
 /* Load a file
 -------------------------------------------------- */
 function loadFile(file, res) {
+	// Remove leading slashes
+	file = file.replace(/^\/+/g, '');
+
 	// If the file exists
 	if (fsInstance.existsSync(file)) {
 		// Read the file
@@ -51,18 +54,48 @@ function handleError(res) {
 
 
 
-/* Server
+/* Server (for simplicity's sake, this has been done with some very basic static routing instead of using Express or similar)
 ---------------------------------------------------------------------------------------------------- */
 /* Create the server instance
 -------------------------------------------------- */
 const httpServer = httpInstance.createServer((req, res) => {
-	// Set the HTTP status
-	res.writeHead(httpStatusInstance.StatusCodes.OK, {
-		'Content-Type': 'text/html'
-	});
+	/* Load CSS
+	------------------------- */
+	if (req.url.indexOf('.css') !== -1) {
+		// Set the HTTP status
+		res.writeHead(httpStatusInstance.StatusCodes.OK, {
+			'Content-Type': 'text/css'
+		});
 
-	// Load "index.html"
-	loadFile('index.html', res);
+		// Load the CSS
+		loadFile(req.url, res);
+	}
+
+
+	/* Load JS
+	------------------------- */
+	else if (req.url.indexOf('.js') !== -1) {
+		// Set the HTTP status
+		res.writeHead(httpStatusInstance.StatusCodes.OK, {
+			'Content-Type': 'text/javascript'
+		});
+
+		// Load the JS
+		loadFile(req.url, res);
+	}
+
+
+	/* Load HTML
+	------------------------- */
+	else {
+		// Set the HTTP status
+		res.writeHead(httpStatusInstance.StatusCodes.OK, {
+			'Content-Type': 'text/html'
+		});
+
+		// Load the HTML
+		loadFile('index.html', res);
+	}
 });
 
 

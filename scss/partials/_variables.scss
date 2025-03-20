@@ -1,0 +1,151 @@
+/* Colours
+---------------------------------------------------------------------------------------------------- */
+$color_primary_light_1: #ff6231;
+$color_primary: #fc4d16;
+
+$color_secondary_light_1: #ede1df;
+$color_secondary: #fda68a;
+
+$color_tertiary: #5f5964;
+
+$color_negative: #9e0000;
+
+$color_white: #ffffff;
+
+$color_grey_light-4: #f9f6f4;
+$color_grey_light-3: #f0edeb;
+$color_grey_light-2: #aeaeae;
+$color_grey_light-1: #6b6b6b;
+$color_grey: #404040;
+$color_grey_dark_1: #292929;
+$color_grey_dark_2: #202021;
+
+$color_black: #09090a;
+
+
+
+/* Fonts
+---------------------------------------------------------------------------------------------------- */
+// Text
+$font_family_primary: 'Rund Text', sans-serif;
+
+// Headings
+$font_family_secondary: 'Rund Display', sans-serif;
+
+// Font weights
+$font_weight_bold: 700;
+$font_weight_semiBold: 600;
+$font_weight_medium: 500;
+$font_weight_regular: 400;
+$font_weight_light: 300;
+
+
+
+/* Border radius
+---------------------------------------------------------------------------------------------------- */
+$border_radius_xl: 32px;
+$border_radius_l: 24px;
+$border_radius_m: 16px;
+$border_radius_s: 8px;
+$border_radius_xs: 4px;
+
+
+
+/* Shadows
+---------------------------------------------------------------------------------------------------- */
+$shadow_m: rgba($color_black, .15) 0 5px 15px 0;
+$shadow_l: rgba($color_black, .2) 0 5px 25px 0;
+
+
+
+/* Transitions
+---------------------------------------------------------------------------------------------------- */
+$transition_slow: .4s;
+$transition_medium: .2s;
+$transition_fast: .1s;
+
+
+
+/* Breakpoints
+Note:
+We -1px from all breakpoints to match Tailwind's responsive utility classes (which are used on some parts of the Betashares website).
+We use "max-width" media queries, but Tailwind uses "min-width" media queries. These differ by 1px.
+---------------------------------------------------------------------------------------------------- */
+$breakpoint_xl: (1280px - 1px);
+$breakpoint_l: (1024px - 1px);
+$breakpoint_m: (768px - 1px);
+$breakpoint_s: (640px - 1px);
+$breakpoint_xs: (480px - 1px);
+
+
+
+/* Gaps
+Why is this code so repetitive? Unfortunately there is no way to do this programmatically using SASS.
+---------------------------------------------------------------------------------------------------- */
+$gap: 8px;
+$gap_half: calc($gap / 2);
+
+$gap_1: ($gap * 1);
+$gap_1_5: $gap_1 + $gap_half;
+$gap_2: ($gap * 2);
+$gap_2_5: $gap_2 + $gap_half;
+$gap_3: ($gap * 3);
+$gap_3_5: $gap_3 + $gap_half;
+$gap_4: ($gap * 4);
+$gap_4_5: $gap_4 + $gap_half;
+$gap_5: ($gap * 5);
+$gap_5_5: $gap_5 + $gap_half;
+$gap_6: ($gap * 6);
+$gap_6_5: $gap_6 + $gap_half;
+$gap_7: ($gap * 7);
+$gap_7_5: $gap_7 + $gap_half;
+$gap_8: ($gap * 8);
+$gap_8_5: $gap_8 + $gap_half;
+$gap_9: ($gap * 9);
+$gap_9_5: $gap_9 + $gap_half;
+$gap_10: ($gap * 10);
+$gap_10_5: $gap_10 + $gap_half;
+$gap_11: ($gap * 11);
+$gap_11_5: $gap_11 + $gap_half;
+$gap_12: ($gap * 12);
+$gap_12_5: $gap_12 + $gap_half;
+$gap_13: ($gap * 13);
+$gap_13_5: $gap_13 + $gap_half;
+$gap_14: ($gap * 14);
+$gap_14_5: $gap_14 + $gap_half;
+$gap_15: ($gap * 15);
+$gap_15_5: $gap_15 + $gap_half;
+$gap_16: ($gap * 16);
+$gap_16_5: $gap_16 + $gap_half;
+$gap_17: ($gap * 17);
+$gap_17_5: $gap_17 + $gap_half;
+$gap_18: ($gap * 18);
+$gap_18_5: $gap_18 + $gap_half;
+$gap_19: ($gap * 19);
+$gap_19_5: $gap_19 + $gap_half;
+$gap_20: ($gap * 20);
+$gap_20_5: $gap_20 + $gap_half;
+$gap_21: ($gap * 21);
+$gap_21_5: $gap_21 + $gap_half;
+$gap_22: ($gap * 22);
+$gap_22_5: $gap_22 + $gap_half;
+$gap_23: ($gap * 23);
+$gap_23_5: $gap_23 + $gap_half;
+$gap_24: ($gap * 24);
+$gap_24_5: $gap_24 + $gap_half;
+$gap_25: ($gap * 25);
+$gap_25_5: $gap_25 + $gap_half;
+$gap_26: ($gap * 26);
+$gap_26_5: $gap_26 + $gap_half;
+$gap_27: ($gap * 27);
+$gap_27_5: $gap_27 + $gap_half;
+$gap_28: ($gap * 28);
+$gap_28_5: $gap_28 + $gap_half;
+$gap_29: ($gap * 29);
+$gap_29_5: $gap_29 + $gap_half;
+$gap_30: ($gap * 30);
+$gap_30_5: $gap_30 + $gap_half;
+$gap_31: ($gap * 31);
+$gap_31_5: $gap_31 + $gap_half;
+$gap_32: ($gap * 32);
+$gap_32_5: $gap_32 + $gap_half;

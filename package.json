@@ -4,7 +4,10 @@
 	"description": "Coding test for Betashares",
 	"main": "index.js",
 	"scripts": {
-		"watch": "node --watch index.js"
+		"sass": "sass --style compressed --no-source-map --watch .",
+		"js": "esbuild ./js/script.js --bundle --outfile=./js/script.min.js --minify",
+		"serve": "node --watch index.js",
+		"watch": "concurrently \"npm run sass\" \"npm run js\" \"npm run serve\""
 	},
 	"repository": {
 		"type": "git",
@@ -20,5 +23,10 @@
 	"homepage": "https://github.com/jamenlyndon/betashares-search#readme",
 	"dependencies": {
 		"http-status-codes": "^2.3.0"
+	},
+	"devDependencies": {
+		"concurrently": "^9.1.2",
+		"esbuild": "^0.25.1",
+		"sass": "^1.86.0"
 	}
 }

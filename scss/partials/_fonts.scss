@@ -1,0 +1,86 @@
+/* Imports
+---------------------------------------------------------------------------------------------------- */
+@use './variables' as v;
+
+
+
+/* Icons
+---------------------------------------------------------------------------------------------------- */
+/* Material Symbols
+-------------------------------------------------- */
+// Outlined
+@font-face {
+	font-family: 'Material Symbols Outlined';
+	font-style: normal;
+	font-weight: 300;
+	src: url('../fonts/materialSymbols_outlined.woff2') format('woff2');
+	font-display: block;
+}
+
+// Thick
+@font-face {
+	font-family: 'Material Symbols Outlined Thick';
+	font-style: normal;
+	font-weight: 400;
+	src: url('../fonts/materialSymbols_thick.woff2') format('woff2');
+	font-display: block;
+}
+
+// Filled
+@font-face {
+	font-family: 'Material Symbols Filled';
+	font-style: normal;
+	font-weight: 400;
+	src: url('../fonts/materialSymbols_filled.woff2') format('woff2');
+	font-display: block;
+}
+
+
+
+/* Typography
+---------------------------------------------------------------------------------------------------- */
+/* Rund Text
+-------------------------------------------------- */
+// Light
+@font-face {
+	font-family: 'Rund Text';
+	font-weight: v.$font_weight_light;
+	src: url('../fonts/rundText_light.woff2');
+}
+
+// Regular
+@font-face {
+	font-family: 'Rund Text';
+	font-weight: v.$font_weight_regular;
+	src: url('../fonts/rundText_regular.woff2');
+}
+
+// Medium
+@font-face {
+	font-family: 'Rund Text';
+	font-weight: v.$font_weight_medium;
+	src: url('../fonts/rundText_medium.woff2');
+}
+
+// SemiBold
+@font-face {
+	font-family: 'Rund Text';
+	font-weight: v.$font_weight_semiBold;
+	src: url('../fonts/rundText_semiBold.woff2');
+}
+
+// Bold
+@font-face {
+	font-family: 'Rund Text';
+	font-weight: v.$font_weight_bold;
+	src: url('../fonts/rundText_bold.woff2');
+}
+
+
+/* Rund Display
+-------------------------------------------------- */
+// Medium (this weight is always used, so we don't define the font weight here in CSS)
+@font-face {
+	font-family: 'Rund Display';
+	src: url('../fonts/rundDisplay_medium.woff2');
+}

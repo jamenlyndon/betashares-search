@@ -1,0 +1,45 @@
+/* Imports
+---------------------------------------------------------------------------------------------------- */
+@use './variables' as v;
+
+
+
+/* Hover
+----------------------------------------------------------------------------------------------------
+This mixin ensures that hover states are not applied for mobile / touch devices.
+It also applies the hover state to :active and :focus-visible (recommended they are the same as :hover in most cases)
+
+Example usage:
+	.exampleElement {
+		@include m.hover {
+			background: orange;
+			color: red;
+		}
+	}
+*/
+@mixin hover {
+	// Disable hover state for mobile devices
+	@media (hover: hover) {
+		&:hover {
+			@content;
+		}
+	}
+
+	// Add active and focus states for all devices
+	// We use :focus-visible below as this stops the focus styles from being "stuck on" after a click
+	&:active,
+	&:focus-visible {
+		@content;
+	}
+}
+
+
+
+/* Reset all styles (remove browser defaults)
+---------------------------------------------------------------------------------------------------- */
+@mixin reset {
+	all: initial;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
