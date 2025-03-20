@@ -4,7 +4,7 @@
 	"description": "Coding test for Betashares",
 	"main": "index.js",
 	"scripts": {
-		"watch": "node index.js"
+		"watch": "node --watch index.js"
 	},
 	"repository": {
 		"type": "git",
