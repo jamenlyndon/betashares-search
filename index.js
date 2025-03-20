@@ -103,5 +103,6 @@ const httpServer = httpInstance.createServer((req, res) => {
 -------------------------------------------------- */
 const portNumber = 3000;
 httpServer.listen(portNumber, () => {
-	console.log('Server started at http://localhost:' + portNumber);
+	// eslint-disable-next-line no-console
+	console.log(`\n\n--------------------------------------------------\nServer started at http://localhost:${portNumber}\n--------------------------------------------------\n\n`);
 });

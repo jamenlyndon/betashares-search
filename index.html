@@ -13,6 +13,276 @@
 		<script type='module' src='/js/script.min.js'></script>
 	</head>
 	<body>
-		Hello world
+		<main>
+			<!-- Search
+			==================================================================================================== -->
+			<div class='search'>
+
+
+				<!-- Field
+				================================================== -->
+				<div class='searchField'>
+					<div class='icon'></div>
+					<input type='text' placeholder='Search our funds'>
+				</div> <!-- .searchField -->
+
+
+				<!-- Search suggestions
+				================================================== -->
+				<div class='suggestions'>
+					<button class='suggestion'>
+						<div class='icon'></div>
+						<div class='text'>Suggestion</div>
+					</button> <!-- .suggestion -->
+
+					<button class='suggestion'>
+						<div class='icon'></div>
+						<div class='text'>Suggestion</div>
+					</button> <!-- .suggestion -->
+				</div> <!-- .suggestions -->
+
+
+				<!-- Filter results
+				================================================== -->
+				<button class='filterButton'>
+					<div class='icon'></div>
+					<div class='text'>Filter results</div>
+				</button> <!-- .filterButton -->
+
+				<div class='filters'>
+					<div class='top'>
+						<div class='title'>Filter results</div>
+						<button class='close'>
+							<div class='icon'></div>
+						</button> <!-- .close -->
+					</div> <!-- .top -->
+
+					<form>
+						<div class='filter'>
+							<div class='label'>Fund size</div>
+							<div class='fields'>
+								<input type='number' placeholder='Min' name='fundSize_min'>
+								<input type='number' placeholder='Max' name='fundSize_max'>
+							</div> <!-- .fields -->
+						</div> <!-- .filter -->
+
+						<div class='filter'>
+							<div class='label'>Management fee (%)</div>
+							<div class='fields'>
+								<input type='number' placeholder='Min' name='managementFee_min'>
+								<input type='number' placeholder='Max' name='managementFee_max'>
+							</div> <!-- .fields -->
+						</div> <!-- .filter -->
+
+						<div class='filter'>
+							<div class='label'>1 year return (%)</div>
+							<div class='fields'>
+								<input type='number' placeholder='Min' name='oneYearReturn_min'>
+								<input type='number' placeholder='Max' name='oneYearReturn_max'>
+							</div> <!-- .fields -->
+						</div> <!-- .filter -->
+
+						<div class='filter'>
+							<div class='label'>Five year return (%)</div>
+							<div class='fields'>
+								<input type='number' placeholder='Min' name='fiveYearReturn_min'>
+								<input type='number' placeholder='Max' name='fiveYearReturn_max'>
+							</div> <!-- .fields -->
+						</div> <!-- .filter -->
+
+						<div class='filter'>
+							<div class='label'>Fund category</div>
+							<div class='fields'>
+								<select name='fundCategory'>
+									<option value='' selected>All categories</option>
+									<option value='example_category'>Example category</option>
+								</select> <!-- .fundCategory -->
+							</div> <!-- .fields -->
+						</div> <!-- .filter -->
+
+						<div class='filter'>
+							<div class='label'>Investment sustainability</div>
+							<div class='fields'>
+								<input type='text' placeholder='Enter keywords' name='investmentSustainability'>
+							</div> <!-- .fields -->
+						</div> <!-- .filter -->
+
+						<div class='filter'>
+							<div class='label'>Management approach</div>
+							<div class='fields'>
+								<input type='text' placeholder='Enter keywords' name='managementApproach'>
+							</div> <!-- .fields -->
+						</div> <!-- .filter -->
+
+						<div class='filter'>
+							<div class='label'>Divident frequency</div>
+							<div class='fields'>
+								<select name='fundCategory'>
+									<option value='' selected>All frequencies</option>
+									<option value='annual'>Annual</option>
+									<option value='quarterly'>Quarterly</option>
+									<option value='monthly'>Monthly</option>
+									<option value='weekly'>Weekly</option>
+								</select> <!-- .fundCategory -->
+							</div> <!-- .fields -->
+						</div> <!-- .filter -->
+					</form>
+				</div> <!-- .filters -->
+
+
+				<!-- Results
+				================================================== -->
+				<div class='results'>
+					<!-- Table
+					========================= -->
+					<table class='resultsTable'>
+						<thead>
+							<tr>
+								<th></th>
+								<th>Code</th>
+								<th>Fund name</th>
+								<th>Type</th>
+								<th>Fund size</th>
+								<th>1 year return</th>
+								<th>5 year return</th>
+								<th>Cost p/a</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<button class='expandCollapseButton'>
+										<div class='icon'></div>
+									</button> <!-- .expandCollapseButton -->
+								</td>
+								<td>
+									<div class='fundCode'>A200</div>
+								</td>
+								<td>
+									<div class='text'>Australia 200 ETF</div>
+								</td>
+								<td>
+									<div class='text'>ETF</div>
+								</td>
+								<td>
+									<div class='text'>6829</div>
+								</td>
+								<td>
+									<div class='text'>5.26%</div>
+								</td>
+								<td>
+									<div class='text'>15.73%</div>
+								</td>
+								<td>
+									<div class='text'>0.04%</div>
+								</td>
+							</tr>
+							<tr class='expandCollapseContent'>
+								<td colspan='8'>
+									<div class='title'>The world's lowest cost Australian shares index ETF</div>
+									<div class='infoContainer'>
+										<div class='info'>
+											<div class='title'>Categories</div>
+											<div class='text'>Diversified, Australian Shares</div>
+										</div> <!-- .info -->
+
+										<div class='info'>
+											<div class='title'>Investment sustainability</div>
+											<div class='text'>Capital growth and regular income</div>
+										</div> <!-- .info -->
+
+										<div class='info'>
+											<div class='title'>Management approach</div>
+											<div class='text'>Passive</div>
+										</div> <!-- .info -->
+
+										<div class='info'>
+											<div class='title'>Dividend frequency</div>
+											<div class='text'>Quarterly</div>
+										</div> <!-- .info -->
+									</div> <!-- .infoContainer -->
+								</td>
+							</tr> <!-- .expandCollapseContent -->
+						</tbody>
+					</table> <!-- .resultsTable -->
+
+
+					<!-- Skeleton loading
+					========================= -->
+					<table class='skeletonLoading'>
+						<thead>
+							<tr>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td></td>
+								<td></td>
+								<td colspan='6'></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td colspan='6'></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td colspan='6'></td>
+							</tr>
+						</tbody>
+					</table> <!-- .skeletonLoading -->
+
+
+					<!-- Pagination
+					========================= -->
+					<div class='pagination'>
+						<div class='buttons'>
+							<button class='prev'>
+								<div class='icon'></div>
+							</button> <!-- .prev -->
+
+							<div class='pages'>
+								<button class='page selected'>1</button>
+								<button class='page'>2</button>
+								<button class='page'>3</button>
+								<button class='page'>4</button>
+								<button class='page'>5</button>
+								<button class='page'>6</button>
+								<button class='page'>7</button>
+								<div class='page ellipsis'>...</div>
+								<button class='page'>10</button>
+							</div> <!-- .pages -->
+
+							<button class='next'>
+								<div class='icon'></div>
+							</button> <!-- .next -->
+						</div> <!-- .buttons -->
+
+						<div class='resultsText'>
+							Showing results 1 - 10 of 100
+						</div> <!-- .resultsText -->
+					</div> <!-- .pagination -->
+
+
+					<!-- No results
+					========================= -->
+					<div class='noResults'>
+						<div class='title'>Sorry, we could not find any results for "typed value".</div>
+						<div class='text'>Try searching for something else or <a href='https://www.betashares.com.au/fund/'>view all funds</a></div>
+					</div> <!-- .noResults -->
+				</div> <!-- .results -->
+
+
+			</div> <!-- .search -->
+		</main>
 	</body>
 </html>
