@@ -20,55 +20,100 @@
 	position: relative;
 	flex-basis: 100%;
 
-	.icon {
-		@include i.icon($style: 'thick', $size: 'm', $color: 'black');
-		position: absolute;
-		top: 50%;
-		left: v.$gap_3;
-		transform: translateY(-50%);
-		pointer-events: none;
-	}
-
-	input {
-		@include m.reset;
-		@include t.text_l;
+	.searchField {
+		overflow: hidden;
+		display: flex;
+		flex-wrap: nowrap;
 		width: 100%;
-		height: v.$gap_8;
-		padding-right: v.$gap_3;
-		padding-left: v.$gap_8;
 		background: v.$color_white;
 		border: 1px solid v.$color_grey_light_2;
 		border-radius: v.$border_radius_s;
-		font-family: v.$font_family_primary;
-		font-weight: v.$font_weight_regular;
-		color: v.$color_black;
 		transition: border-color v.$transition_fast linear;
 
-		// Disable typography alignment
-		&::before,
-		&::after {
-			content: none;
-		}
-
-		&::placeholder {
-			color: v.$color_grey_light_1;
-		}
-
-		&:focus {
+		// Focus state
+		&.focus {
 			border-color: v.$color_grey_light_1;
 		}
-	}
 
-	// Responsive
-	@media (max-width: v.$breakpoint_l) {
-		.icon {
-			left: v.$gap_2;
+		// Icon
+		> .icon {
+			@include i.icon($style: 'thick', $size: 'm', $color: 'grey_light_1');
+			position: absolute;
+			top: 50%;
+			left: v.$gap_3;
+			transform: translateY(-50%);
+			pointer-events: none;
 		}
 
+		// Input
 		input {
-			height: v.$gap_6_5;
-			padding-right: v.$gap_2;
-			padding-left: v.$gap_5_5;
+			@include m.reset;
+			@include t.text_l;
+			width: 100%;
+			height: v.$gap_8;
+			padding-right: v.$gap_3;
+			padding-left: v.$gap_8;
+			color: v.$color_black;
+
+			// Disable typography alignment
+			&::before,
+			&::after {
+				content: none;
+			}
+
+			&::placeholder {
+				color: v.$color_grey_light_2;
+			}
+		}
+
+		// Button
+		.searchButton {
+			@include m.reset;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: v.$gap_7;
+			background: v.$color_grey_light_4;
+			border-left: 1px solid v.$color_grey_light_2;
+			border-top-right-radius: v.$border_radius_s;
+			border-bottom-right-radius: v.$border_radius_s;
+			cursor: pointer;
+			transition: background-color v.$transition_fast linear;
+
+			.icon {
+				@include i.icon($style: 'thick', $size: 'm', $color: 'grey_light_1');
+				pointer-events: none;
+				transition: color v.$transition_fast linear;
+			}
+
+			@include m.hover {
+				background: v.$color_grey_light_3;
+
+				.icon {
+					color: v.$color_grey;
+				}
+			}
+
+			&:active {
+				background: darken(v.$color_grey_light_3, 3%);
+			}
+		}
+
+		// Responsive
+		@media (max-width: v.$breakpoint_l) {
+			> .icon {
+				left: v.$gap_2;
+			}
+
+			input {
+				height: v.$gap_6_5;
+				padding-right: v.$gap_2;
+				padding-left: v.$gap_5_5;
+			}
+
+			.searchButton {
+				width: v.$gap_6;
+			}
 		}
 	}
 }

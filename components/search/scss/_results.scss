@@ -163,7 +163,7 @@
 				// Darken the pseudo element on click
 				&:active {
 					td:first-child::before {
-						background: darken(v.$color_grey_light_3, 2.5%);
+						background: darken(v.$color_grey_light_3, 3%);
 					}
 				}
 

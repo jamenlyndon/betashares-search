@@ -6,14 +6,20 @@
 	<!-- Field
 	================================================== -->
 	<div class='field'>
-		<div class='icon'>search</div>
-		<input type='text' placeholder='Search by fund name or code'>
+		<!-- Search field
+		================================================== -->
+		<div class='searchField'>
+			<div class='icon'>search</div>
+			<input type='text' placeholder='Search by fund name or code'>
+			<button class='searchButton'>
+				<div class='icon'>search</div>
+			</button> <!-- .searchButton -->
+		</div> <!-- .searchField -->
+
+		<!-- Suggestions
+		================================================== -->
+		<div class='suggestions hidden'></div>
 	</div> <!-- .field -->
-
-
-	<!-- Suggestions
-	================================================== -->
-	<div class='suggestions hidden'></div>
 
 
 	<!-- Filters
@@ -113,10 +119,10 @@
 
 	<!-- Results
 	================================================== -->
-	<div class='results hidden'>
+	<div class='results'>
 		<!-- Results table
 		========================= -->
-		<table class='resultsTable hidden'>
+		<table class='resultsTable'>
 			<thead>
 				<tr>
 					<th></th>

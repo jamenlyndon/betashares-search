@@ -17,8 +17,11 @@
 /* Search suggestions
 ---------------------------------------------------------------------------------------------------- */
 .search .suggestions {
-	flex-basis: 100%;
-	margin-top: -#{v.$gap_1};
+	position: absolute;
+	z-index: 2;
+	top: calc(100% + v.$gap_1);
+	right: 0;
+	left: 0;
 	padding: v.$gap_1;
 	background: v.$color_white;
 	border-radius: v.$border_radius_s;

@@ -3,6 +3,9 @@
 // Variables
 @use './variables' as v;
 
+// Typography
+@use './typography' as t;
+
 
 
 /* Browser reset
@@ -46,6 +49,17 @@ main {
 	max-width: 1316px;
 	margin-right: auto;
 	margin-left: auto;
+}
+
+
+
+/* Main title
+---------------------------------------------------------------------------------------------------- */
+h1 {
+	@include t.text_h1($gap: true);
+	width: 100%;
+	color: v.$color_primary;
+	text-align: center;
 }
 
 

@@ -7,8 +7,8 @@
 		"sass": "sass --style compressed --no-source-map --watch .",
 		"js": "esbuild ./js/script.js --bundle --outfile=./js/script.min.js --minify --watch",
 		"lint": "concurrently \"npx eslint **/*.js --ignore-pattern *.min.js --fix\" \"stylelint **/*.scss --fix\"",
-		"serve": "node --watch index.js",
-		"watch": "concurrently \"npm run sass\" \"npm run js\" \"npm run lint\" \"npm run serve\""
+		"start": "node --watch index.js",
+		"watch": "concurrently \"npm run sass\" \"npm run js\" \"npm run lint\" \"npm run start\""
 	},
 	"repository": {
 		"type": "git",

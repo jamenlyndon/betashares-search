@@ -105,8 +105,11 @@
 	/* Handle focus / input / click
 	-------------------------------------------------- */
 	function field_handleFocusInputClick(event) {
+		// Set the field's focus state
+		helper_addClass('focus', dom_field);
+
 		// Get the search text
-		let searchText = dom_field?.value;
+		let searchText = dom_field_input?.value;
 
 		// Ensure the search text is a string
 		if (!searchText) {
@@ -170,6 +173,9 @@
 	/* Handle blur
 	-------------------------------------------------- */
 	function field_handleBlur(event) {
+		// Remove the field's focus state
+		helper_removeClass('focus', dom_field);
+
 		window.requestAnimationFrame(() => {
 			// If we're not focused within the suggestions
 			if (!document.activeElement.closest('.search .suggestions')) {
@@ -218,8 +224,8 @@
 			});
 		}
 
-		// If we've got HTML output
-		if (htmlOutput) {
+		// If we've got HTML output and we're focused in the field
+		if (htmlOutput && document.activeElement.closest('.search .field')) {
 			// Show the suggestions
 			helper_removeClass('hidden', dom_suggestions);
 		}
@@ -257,12 +263,12 @@
 	-------------------------------------------------- */
 	function suggestion_handleClick(event) {
 		// Get the text of the clicked suggestion
-		const suggestionText = event.target.closest('.suggestion')?.querySelector('.text');
+		const suggestionText = event.target.closest('.search .suggestion')?.querySelector('.text');
 
 		// If we found it
 		if (suggestionText) {
 			// Update the value of the field
-			dom_field.value = suggestionText?.innerText;
+			dom_field_input.value = suggestionText?.innerText;
 
 			// Show the search results
 			results_show();
@@ -339,7 +345,7 @@
 		// If we found it
 		if (focusedSuggestionText) {
 			// Update the value of the field
-			dom_field.value = focusedSuggestionText?.innerText;
+			dom_field_input.value = focusedSuggestionText?.innerText;
 
 			// Stop the arrow key event from changing the cursor position
 			event.preventDefault();
@@ -406,7 +412,7 @@
 		// If we found it
 		if (focusedSuggestionText) {
 			// Update the value of the field
-			dom_field.value = focusedSuggestionText?.innerText;
+			dom_field_input.value = focusedSuggestionText?.innerText;
 
 			// Stop the arrow key event from changing the cursor position
 			event.preventDefault();
@@ -425,7 +431,7 @@
 		suggestions_hide();
 
 		// Blur the field
-		dom_field?.blur();
+		dom_field_input?.blur();
 
 		// Show the results
 		console.log('todo: show the results');
@@ -441,7 +447,9 @@
 	const dom_search = document.querySelector('.search');
 
 	// Field
-	const dom_field = dom_search?.querySelector('.field input');
+	const dom_field = dom_search?.querySelector('.field .searchField');
+	const dom_field_input = dom_field?.querySelector('input');
+	const dom_field_button = dom_field?.querySelector('.searchButton');
 
 	// Suggestions
 	const dom_suggestions = dom_search?.querySelector('.suggestions');
@@ -460,20 +468,23 @@
 
 	/* Attach event listeners
 	-------------------------------------------------- */
-	// Field - blur
-	dom_field?.addEventListener('blur', field_handleBlur);
+	// Field input - blur
+	dom_field_input?.addEventListener('blur', field_handleBlur);
 
-	// Field - focus
-	dom_field?.addEventListener('focus', field_handleFocusInputClick);
+	// Field input - focus
+	dom_field_input?.addEventListener('focus', field_handleFocusInputClick);
 
-	// Field - click
-	dom_field?.addEventListener('click', field_handleFocusInputClick);
+	// Field input - click
+	dom_field_input?.addEventListener('click', field_handleFocusInputClick);
 
-	// Field - input
-	dom_field?.addEventListener('input', field_handleFocusInputClick);
+	// Field input - input
+	dom_field_input?.addEventListener('input', field_handleFocusInputClick);
 
-	// Field - key down
-	dom_field?.addEventListener('keydown', field_handleKeyDown);
+	// Field input - key down
+	dom_field_input?.addEventListener('keydown', field_handleKeyDown);
+
+	// Field button - click
+	dom_field_button?.addEventListener('click', results_show);
 
 
 	/* Gets some suggestions to display instantly (these show when the search field is empty)
