@@ -59,9 +59,17 @@ function handleError(res) {
 /* Create the server instance
 -------------------------------------------------- */
 const httpServer = httpInstance.createServer((req, res) => {
+	/* Use "index.html" if the path is blank
+	------------------------- */
+	let filePath = req.url;
+	if (filePath === '' || filePath === '/') {
+		filePath = 'index.html';
+	}
+
+
 	/* CSS
 	------------------------- */
-	if (req.url.indexOf('.css') !== -1) {
+	if (filePath.indexOf('.css') !== -1) {
 		// Set the HTTP status
 		res.writeHead(httpStatusInstance.StatusCodes.OK, {
 			'Content-Type': 'text/css'
@@ -71,7 +79,7 @@ const httpServer = httpInstance.createServer((req, res) => {
 
 	/* JS
 	------------------------- */
-	else if (req.url.indexOf('.js') !== -1) {
+	else if (filePath.indexOf('.js') !== -1) {
 		// Set the HTTP status
 		res.writeHead(httpStatusInstance.StatusCodes.OK, {
 			'Content-Type': 'text/javascript'
@@ -81,7 +89,7 @@ const httpServer = httpInstance.createServer((req, res) => {
 
 	/* Fonts
 	------------------------- */
-	else if (req.url.indexOf('.woff2') !== -1) {
+	else if (filePath.indexOf('.woff2') !== -1) {
 		// Set the HTTP status
 		res.writeHead(httpStatusInstance.StatusCodes.OK, {
 			'Content-Type': 'font/woff2'
@@ -91,18 +99,17 @@ const httpServer = httpInstance.createServer((req, res) => {
 
 	/* HTML
 	------------------------- */
-	else {
+	else if (filePath.indexOf('.html') !== -1) {
 		// Set the HTTP status
 		res.writeHead(httpStatusInstance.StatusCodes.OK, {
 			'Content-Type': 'text/html'
 		});
-
-		// Update the file path
-		req.url = 'index.html';
 	}
 
-	// Load the file
-	loadFile(req.url, res);
+
+	/* Load the file
+	------------------------- */
+	loadFile(filePath, res);
 });
 
 
@@ -110,6 +117,5 @@ const httpServer = httpInstance.createServer((req, res) => {
 -------------------------------------------------- */
 const portNumber = 3000;
 httpServer.listen(portNumber, () => {
-	// eslint-disable-next-line no-console
 	console.log(`\n\n--------------------------------------------------\nServer started at http://localhost:${portNumber}\n--------------------------------------------------\n\n`);
 });

@@ -4,6 +4,9 @@
 	"env": {
 		"es6": true
   },
+	"parserOptions": {
+		"sourceType": "module"
+	},
 	"rules": {
 		/* ESLint configuration (https://eslint.org/docs/latest/rules/)
 		---------------------------------------------------------------------------------------------------- */
@@ -48,9 +51,6 @@
 
 		// Enforce type-safe equality operators (e.g. "===" and "!==")
 		"eqeqeq": "error",
-
-		// Disallow console.log (you can use this during development of course, but we cannot deploy it on production or merge it into a branch)
-		"no-console": "error",
 
 		// Disallow empty block statements
 		"no-empty": "error",

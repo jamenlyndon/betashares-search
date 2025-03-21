@@ -1,4 +1,4 @@
-/* Imports
+/* General
 ---------------------------------------------------------------------------------------------------- */
 // Global styles
 @use 'partials/global';
@@ -6,9 +6,9 @@
 // Fonts
 @use 'partials/fonts';
 
+
+
+/* Components
+---------------------------------------------------------------------------------------------------- */
 // Search
-@use 'search/container';
-@use 'search/field';
-@use 'search/suggestions';
-@use 'search/filters';
-@use 'search/results';
+@use '../components/search/scss/style';

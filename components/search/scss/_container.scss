@@ -1,7 +1,7 @@
 /* Imports
 ---------------------------------------------------------------------------------------------------- */
 // Variables
-@use '../partials/variables' as v;
+@use '../../../scss/partials/variables' as v;
 
 
 
@@ -11,4 +11,10 @@
 	display: flex;
 	flex-wrap: wrap;
 	gap: v.$gap_2;
+
+	// Also include a small helper class for hiding elements within the search component
+	// Note that we make use of "!important" here, as we want this to always override specificity
+	.hidden {
+		display: none !important;
+	}
 }
