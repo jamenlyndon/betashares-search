@@ -1,0 +1,26 @@
+/* Imports
+---------------------------------------------------------------------------------------------------- */
+// Variables
+@use '../partials/variables' as v;
+
+// Field
+@use 'partials/field';
+
+// Suggestions
+@use 'partials/suggestions';
+
+// Filters
+@use 'partials/filters';
+
+// Results
+@use 'partials/results';
+
+
+
+/* Search container
+---------------------------------------------------------------------------------------------------- */
+.search {
+	display: flex;
+	flex-wrap: wrap;
+	gap: v.$gap_2;
+}

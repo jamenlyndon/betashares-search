@@ -21,15 +21,15 @@
 
 				<!-- Search field
 				================================================== -->
-				<div class='searchField'>
+				<div class='search_field'>
 					<div class='icon'>search</div>
 					<input type='text' placeholder='Search our funds'>
-				</div> <!-- .searchField -->
+				</div> <!-- .search_field -->
 
 
 				<!-- Search suggestions
 				================================================== -->
-				<div class='suggestions'>
+				<div class='search_suggestions'>
 					<button class='suggestion'>
 						<div class='icon'>search</div>
 						<div class='text'>Suggestion</div>
@@ -39,17 +39,17 @@
 						<div class='icon'>search</div>
 						<div class='text'>Suggestion</div>
 					</button> <!-- .suggestion -->
-				</div> <!-- .suggestions -->
+				</div> <!-- .search_suggestions -->
 
 
 				<!-- Filter results
 				================================================== -->
-				<button class='filterButton'>
+				<button class='search_filterButton'>
 					<div class='icon'>tune</div>
 					<div class='text'>Filter results</div>
-				</button> <!-- .filterButton -->
+				</button> <!-- .search_filterButton -->
 
-				<div class='filters'>
+				<div class='search_filters'>
 					<div class='top'>
 						<div class='title'>Filter results</div>
 						<button class='closeButton'>
@@ -134,12 +134,12 @@
 							</div> <!-- .fields -->
 						</div> <!-- .filter -->
 					</form>
-				</div> <!-- .filters -->
+				</div> <!-- .search_filters -->
 
 
 				<!-- Search results
 				================================================== -->
-				<div class='results'>
+				<div class='search_results'>
 					<!-- Results table
 					========================= -->
 					<table class='resultsTable'>
@@ -158,31 +158,31 @@
 										<div class='icon'>keyboard_arrow_down</div>
 									</div> <!-- .headerContainer -->
 								</th>
-								<th>
+								<th class='hide_l'>
 									<div class='headerContainer'>
 										<div class='text'>Type</div>
 										<div class='icon'>keyboard_arrow_down</div>
 									</div> <!-- .headerContainer -->
 								</th>
-								<th>
+								<th class='hide_l'>
 									<div class='headerContainer'>
 										<div class='text'>Fund size</div>
 										<div class='icon'>keyboard_arrow_down</div>
 									</div> <!-- .headerContainer -->
 								</th>
-								<th>
+								<th class='hide_s'>
 									<div class='headerContainer'>
-										<div class='text'>1 year return</div>
+										<div class='text'>1 year<span class='hide_m'> return</span></div>
 										<div class='icon'>keyboard_arrow_down</div>
 									</div> <!-- .headerContainer -->
 								</th>
-								<th>
+								<th class='hide_s'>
 									<div class='headerContainer'>
-										<div class='text'>5 year return</div>
+										<div class='text'>5 year<span class='hide_m'> return</span></div>
 										<div class='icon'>keyboard_arrow_down</div>
 									</div> <!-- .headerContainer -->
 								</th>
-								<th>
+								<th class='hide_s'>
 									<div class='headerContainer'>
 										<div class='text'>Cost p/a</div>
 										<div class='icon'>keyboard_arrow_down</div>
@@ -205,19 +205,19 @@
 								<td>
 									<div class='text'>Australia 200 ETF</div>
 								</td>
-								<td>
+								<td class='hide_l'>
 									<div class='text'>ETF</div>
 								</td>
-								<td>
+								<td class='hide_l'>
 									<div class='text'>6829</div>
 								</td>
-								<td>
+								<td class='hide_s'>
 									<div class='text'>5.26%</div>
 								</td>
-								<td>
+								<td class='hide_s'>
 									<div class='text'>15.73%</div>
 								</td>
-								<td>
+								<td class='hide_s'>
 									<div class='text'>0.04%</div>
 								</td>
 							</tr>
@@ -226,6 +226,31 @@
 									<div class='description'>The world's lowest cost Australian shares index ETF</div>
 
 									<div class='infoContainer'>
+										<div class='info hidden show_l'>
+											<div class='title'>Type</div>
+											<div class='text'>EFT</div>
+										</div> <!-- .info -->
+
+										<div class='info hidden show_l'>
+											<div class='title'>Fund size</div>
+											<div class='text'>6829</div>
+										</div> <!-- .info -->
+
+										<div class='info hidden show_s'>
+											<div class='title'>1 year return</div>
+											<div class='text'>5.26%</div>
+										</div> <!-- .info -->
+
+										<div class='info hidden show_s'>
+											<div class='title'>5 year return</div>
+											<div class='text'>15.73%</div>
+										</div> <!-- .info -->
+
+										<div class='info hidden show_s'>
+											<div class='title'>Cost p/a</div>
+											<div class='text'>0.04%</div>
+										</div> <!-- .info -->
+
 										<div class='info'>
 											<div class='title'>Categories</div>
 											<div class='text'>Diversified, Australian Shares</div>
@@ -260,11 +285,11 @@
 								<th><div class='box'></div></th>
 								<th><div class='box'></div></th>
 								<th><div class='box'></div></th>
-								<th><div class='box'></div></th>
-								<th><div class='box'></div></th>
-								<th><div class='box'></div></th>
-								<th><div class='box'></div></th>
-								<th><div class='box'></div></th>
+								<th class='hide_l'><div class='box'></div></th>
+								<th class='hide_l'><div class='box'></div></th>
+								<th class='hide_s'><div class='box'></div></th>
+								<th class='hide_s'><div class='box'></div></th>
+								<th class='hide_s'><div class='box'></div></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -342,7 +367,7 @@
 						<div class='title'>Sorry, we could not find any results for "<i>typed value</i>".</div>
 						<div class='text'>Try searching for something else or <a href='https://www.betashares.com.au/fund/'>view all funds</a></div>
 					</div> <!-- .noResults -->
-				</div> <!-- .results -->
+				</div> <!-- .search_results -->
 
 
 			</div> <!-- .search -->

@@ -34,18 +34,30 @@
 	}
 
 
-	/* Size
+	/* Size (including responsive)
 	-------------------------------------------------- */
 	@if ($size == 'l') {
 		font-size: 32px;
+
+		@media (max-width: v.$breakpoint_l) {
+			font-size: 24px;
+		}
 	}
 
 	@if ($size == 'm') {
 		font-size: 24px;
+
+		@media (max-width: v.$breakpoint_l) {
+			font-size: 20px;
+		}
 	}
 
 	@if ($size == 's') {
 		font-size: 20px;
+
+		@media (max-width: v.$breakpoint_l) {
+			font-size: 18px;
+		}
 	}
 
 

@@ -1,0 +1,93 @@
+/* Imports
+---------------------------------------------------------------------------------------------------- */
+// Variables
+@use './variables' as v;
+
+
+
+/* Browser reset
+---------------------------------------------------------------------------------------------------- */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+
+
+/* Page layout (this matches the Betashares website)
+---------------------------------------------------------------------------------------------------- */
+html,
+body {
+	width: 100%;
+	min-width: 320px;
+	min-height: 100%;
+	background: v.$color_off_white;
+	color: v.$color_black;
+
+	// This property defines a smooth CSS scroll animation for anchor links
+	scroll-behavior: smooth;
+}
+
+body {
+	padding: v.$gap_8;
+
+	@media (max-width: v.$breakpoint_xl) {
+		padding: v.$gap_4;
+	}
+
+	@media (max-width: v.$breakpoint_l) {
+		padding: v.$gap_3_5;
+	}
+}
+
+main {
+	width: 100%;
+	max-width: 1316px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+
+/* Responsive helper classes (we make use of "!important" here, as we want these to always override specificity)
+---------------------------------------------------------------------------------------------------- */
+@media (max-width: v.$breakpoint_l) {
+	.hide_l {
+		display: none !important;
+	}
+
+	.show_l {
+		display: block !important;
+	}
+}
+
+@media (max-width: v.$breakpoint_m) {
+	.hide_m {
+		display: none !important;
+	}
+
+	.show_m {
+		display: block !important;
+	}
+}
+
+@media (max-width: v.$breakpoint_s) {
+	.hide_s {
+		display: none !important;
+	}
+
+	.show_s {
+		display: block !important;
+	}
+}
+
+@media (max-width: v.$breakpoint_xs) {
+	.hide_xs {
+		display: none !important;
+	}
+
+	.show_xs {
+		display: block !important;
+	}
+}

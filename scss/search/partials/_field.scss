@@ -1,0 +1,74 @@
+/* Imports
+---------------------------------------------------------------------------------------------------- */
+// Variables
+@use '../../partials/variables' as v;
+
+// Mixins
+@use '../../partials/mixins' as m;
+
+// Typography
+@use '../../partials/typography' as t;
+
+// Icons
+@use '../../partials/icons' as i;
+
+
+
+/* Search field
+---------------------------------------------------------------------------------------------------- */
+.search_field {
+	position: relative;
+	flex-basis: 100%;
+
+	.icon {
+		@include i.icon($style: 'thick', $size: 'm', $color: 'black');
+		position: absolute;
+		top: 50%;
+		left: v.$gap_3;
+		transform: translateY(-50%);
+		pointer-events: none;
+	}
+
+	input {
+		@include m.reset;
+		@include t.text_l;
+		width: 100%;
+		height: v.$gap_8;
+		padding-right: v.$gap_3;
+		padding-left: v.$gap_8;
+		background: v.$color_white;
+		border: 1px solid v.$color_grey_light_2;
+		border-radius: v.$border_radius_s;
+		font-family: v.$font_family_primary;
+		font-weight: v.$font_weight_regular;
+		color: v.$color_black;
+		transition: border-color v.$transition_fast linear;
+
+		// Disable typography alignment
+		&::before,
+		&::after {
+			content: none;
+		}
+
+		&::placeholder {
+			color: v.$color_grey_light_1;
+		}
+
+		&:focus {
+			border-color: v.$color_grey_light_1;
+		}
+	}
+
+	// Responsive
+	@media (max-width: v.$breakpoint_l) {
+		.icon {
+			left: v.$gap_2;
+		}
+
+		input {
+			height: v.$gap_6_5;
+			padding-right: v.$gap_2;
+			padding-left: v.$gap_5_5;
+		}
+	}
+}

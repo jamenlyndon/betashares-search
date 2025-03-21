@@ -1,0 +1,72 @@
+/* Imports
+---------------------------------------------------------------------------------------------------- */
+// Variables
+@use '../../partials/variables' as v;
+
+// Mixins
+@use '../../partials/mixins' as m;
+
+// Typography
+@use '../../partials/typography' as t;
+
+// Icons
+@use '../../partials/icons' as i;
+
+
+
+/* Search suggestions
+---------------------------------------------------------------------------------------------------- */
+.search_suggestions {
+	flex-basis: 100%;
+	margin-top: -#{v.$gap_1};
+	padding: v.$gap_1;
+	background: v.$color_white;
+	border-radius: v.$border_radius_s;
+	box-shadow: v.$shadow_m;
+
+	.suggestion {
+		@include m.reset;
+		display: flex;
+		flex-basis: 100%;
+		flex-wrap: nowrap;
+		gap: v.$gap_2;
+		align-items: center;
+		min-width: 100%;
+		padding-top: v.$gap_1_5;
+		padding-right: v.$gap_2;
+		padding-bottom: v.$gap_1_5;
+		padding-left: v.$gap_2;
+		border-radius: v.$border_radius_s;
+		cursor: pointer;
+		transition: background-color v.$transition_fast linear;
+
+		@include m.hover {
+			background: v.$color_grey_light_4;
+		}
+
+		&:active {
+			background: v.$color_grey_light_3;
+		}
+
+		.icon {
+			@include i.icon($style: 'thick', $size: 'm', $color: 'grey_light_2');
+		}
+
+		.text {
+			@include t.text_m;
+			// Adjust alignment slightly (this looks better than flex's vertical center alignment)
+			margin-top: -1px;
+		}
+	}
+
+	// Responsive
+	@media (max-width: v.$breakpoint_l) {
+		.suggestion {
+			gap: v.$gap_1_5;
+			padding-top: v.$gap_1;
+			padding-right: v.$gap_1_5;
+			padding-bottom: v.$gap_1;
+			padding-left: v.$gap_1;
+		}
+	}
+}
