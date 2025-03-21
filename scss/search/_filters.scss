@@ -1,22 +1,24 @@
 /* Imports
 ---------------------------------------------------------------------------------------------------- */
 // Variables
-@use '../../partials/variables' as v;
+@use '../partials/variables' as v;
 
 // Mixins
-@use '../../partials/mixins' as m;
+@use '../partials/mixins' as m;
 
 // Typography
-@use '../../partials/typography' as t;
+@use '../partials/typography' as t;
 
 // Icons
-@use '../../partials/icons' as i;
+@use '../partials/icons' as i;
 
 
 
 /* Search filters
 ---------------------------------------------------------------------------------------------------- */
-.search_filterButton {
+/* Filter button
+-------------------------------------------------- */
+.search .filterButton {
 	@include m.reset;
 	display: flex;
 	gap: v.$gap_1;
@@ -48,7 +50,10 @@
 	}
 }
 
-.search_filters {
+
+/* Filters
+-------------------------------------------------- */
+.search .filters {
 	display: flex;
 	flex-basis: 100%;
 	flex-wrap: wrap;

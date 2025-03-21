@@ -7,4 +7,8 @@
 @use 'partials/fonts';
 
 // Search
-@use 'search/style';
+@use 'search/container';
+@use 'search/field';
+@use 'search/suggestions';
+@use 'search/filters';
+@use 'search/results';
