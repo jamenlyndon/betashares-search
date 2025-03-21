@@ -86,6 +86,7 @@ Why is this code so repetitive? Unfortunately there is no way to do this program
 $gap: 8px;
 $gap_half: calc($gap / 2);
 
+$gap_0_5: $gap_half;
 $gap_1: ($gap * 1);
 $gap_1_5: $gap_1 + $gap_half;
 $gap_2: ($gap * 2);

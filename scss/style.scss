@@ -1,10 +1,888 @@
 /* Imports
 ---------------------------------------------------------------------------------------------------- */
+// Variables
+@use 'partials/variables' as v;
+
+// Mixins
+@use 'partials/mixins' as m;
+
+// Typography
+@use 'partials/typography' as t;
+
+// Icons
+@use 'partials/icons' as i;
+
 // Fonts
 @use 'partials/fonts';
 
-// Global styles
-@use 'partials/global';
-
 // Typography
 @use 'partials/typography';
+
+
+
+/* Global styles
+---------------------------------------------------------------------------------------------------- */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+
+
+/* Page layout (this matches the Betashares website)
+---------------------------------------------------------------------------------------------------- */
+html,
+body {
+	width: 100%;
+	min-width: 320px;
+	min-height: 100%;
+	background: v.$color_off_white;
+	color: v.$color_black;
+
+	// This property defines a smooth CSS scroll animation for anchor links
+	scroll-behavior: smooth;
+}
+
+body {
+	padding: v.$gap_8;
+
+	@media (max-width: v.$breakpoint_xl) {
+		padding: v.$gap_4;
+	}
+
+	@media (max-width: v.$breakpoint_l) {
+		padding: v.$gap_3_5;
+	}
+}
+
+main {
+	width: 100%;
+	max-width: 1316px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+
+/* Search
+---------------------------------------------------------------------------------------------------- */
+.search {
+	display: flex;
+	flex-wrap: wrap;
+	gap: v.$gap_2;
+
+
+	/* Search field
+	-------------------------------------------------- */
+	.searchField {
+		position: relative;
+		flex-basis: 100%;
+
+		.icon {
+			@include i.icon($style: 'thick', $size: 'm', $color: 'black');
+			position: absolute;
+			top: 50%;
+			left: v.$gap_3;
+			transform: translateY(-50%);
+			pointer-events: none;
+		}
+
+		input {
+			@include m.reset;
+			@include t.text_l;
+			width: 100%;
+			height: v.$gap_8;
+			padding-right: v.$gap_3;
+			padding-left: v.$gap_8;
+			background: v.$color_white;
+			border: 1px solid v.$color_grey_light_2;
+			border-radius: v.$border_radius_s;
+			font-family: v.$font_family_primary;
+			font-weight: v.$font_weight_regular;
+			color: v.$color_black;
+			transition: border-color v.$transition_fast linear;
+
+			// Disable typography alignment
+			&::before,
+			&::after {
+				content: none;
+			}
+
+			&::placeholder {
+				color: v.$color_grey_light_1;
+			}
+
+			&:focus {
+				border-color: v.$color_grey_light_1;
+			}
+		}
+	}
+
+
+	/* Search suggestions
+	-------------------------------------------------- */
+	.suggestions {
+		flex-basis: 100%;
+		margin-top: -#{v.$gap_1};
+		padding: v.$gap_1;
+		background: v.$color_white;
+		border-radius: v.$border_radius_s;
+		box-shadow: v.$shadow_m;
+
+		.suggestion {
+			@include m.reset;
+			display: flex;
+			flex-basis: 100%;
+			flex-wrap: nowrap;
+			gap: v.$gap_2;
+			align-items: center;
+			min-width: 100%;
+			padding-top: v.$gap_1_5;
+			padding-right: v.$gap_2;
+			padding-bottom: v.$gap_1_5;
+			padding-left: v.$gap_2;
+			border-radius: v.$border_radius_s;
+			cursor: pointer;
+			transition: background-color v.$transition_fast linear;
+
+			@include m.hover {
+				background: v.$color_grey_light_4;
+			}
+
+			&:active {
+				background: v.$color_grey_light_3;
+			}
+
+			.icon {
+				@include i.icon($style: 'thick', $size: 'm', $color: 'grey_light_2');
+			}
+
+			.text {
+				@include t.text_m;
+				// Adjust alignment slightly (this looks better than flex's vertical center alignment)
+				margin-top: -1px;
+			}
+		}
+	}
+
+
+	/* Filter results
+	-------------------------------------------------- */
+	.filterButton {
+		@include m.reset;
+		display: flex;
+		gap: v.$gap_1;
+		align-items: center;
+		margin-left: auto;
+		cursor: pointer;
+
+		.icon {
+			@include i.icon($style: 'thick', $size: 'm', $color: 'primary');
+		}
+
+		.text {
+			@include t.text_m;
+			// Adjust alignment slightly (this looks better than flex's vertical center alignment)
+			margin-top: -1px;
+			font-weight: v.$font_weight_semiBold;
+			color: v.$color_primary;
+		}
+
+		@include m.hover {
+			.text,
+			.icon {
+				color: v.$color_primary_light_1;
+			}
+
+			.text {
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.filters {
+		display: flex;
+		flex-basis: 100%;
+		flex-wrap: wrap;
+		gap: v.$gap_4;
+		padding-top: v.$gap_4;
+		padding-right: v.$gap_4;
+		padding-bottom: v.$gap_5;
+		padding-left: v.$gap_4;
+		background: v.$color_white;
+		border-radius: v.$border_radius_s;
+		box-shadow: v.$shadow_m;
+
+		.top {
+			position: relative;
+			flex-basis: 100%;
+			padding-right: v.$gap_7;
+
+			.title {
+				@include t.text_h5;
+			}
+
+			.closeButton {
+				@include m.reset;
+				position: absolute;
+				top: -#{v.$gap_1_5};
+				right: -#{v.$gap_1_5};
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: v.$gap_5;
+				height: v.$gap_5;
+				margin-left: auto;
+				border-radius: 999px;
+				cursor: pointer;
+				transition: background-color v.$transition_fast linear;
+
+				.icon {
+					@include i.icon($style: 'thick', $size: 'm', $color: 'black');
+				}
+
+				@include m.hover {
+					background: v.$color_grey_light_4;
+				}
+
+				&:active {
+					background: v.$color_grey_light_3;
+				}
+			}
+		}
+
+		form {
+			@include m.reset;
+			display: flex;
+			flex-basis: 100%;
+			flex-wrap: wrap;
+			row-gap: v.$gap_4;
+			column-gap: v.$gap_6;
+
+			.filter {
+				display: flex;
+				// This is a simply little formula to account for the flex gap
+				// 25% - the gap size + (the gap size / the total columns per row)
+				flex-basis: calc(25% - v.$gap_6 + (v.$gap_6 / 4));
+				flex-wrap: wrap;
+				gap: v.$gap_1_5;
+
+				.label {
+					flex-basis: 100%;
+					@include t.text_m;
+					color: v.$color_grey_light_1;
+				}
+
+				.fields {
+					display: flex;
+					flex-basis: 100%;
+					flex-wrap: nowrap;
+					gap: v.$gap_2;
+
+					input,
+					select {
+						@include m.reset;
+						@include t.text_s;
+						width: 100%;
+						height: v.$gap_6;
+						padding-right: v.$gap_2;
+						padding-left: v.$gap_2;
+						background: v.$color_white;
+						border: 1px solid v.$color_grey_light_2;
+						border-radius: v.$border_radius_s;
+						font-family: v.$font_family_primary;
+						font-weight: v.$font_weight_regular;
+						color: v.$color_black;
+						transition: border-color v.$transition_fast linear;
+
+						// Disable typography alignment
+						&::before,
+						&::after {
+							content: none;
+						}
+
+						&::placeholder {
+							color: v.$color_grey_light_1;
+						}
+
+						&:focus {
+							border-color: v.$color_grey_light_1;
+						}
+					}
+
+					// Hide number "tickers" (these come from the browser)
+					input::-webkit-outer-spin-button,
+					input::-webkit-inner-spin-button {
+						margin: 0;
+						-webkit-appearance: none;
+					}
+
+					input[type='number'] {
+						-moz-appearance: textfield;
+					}
+
+					// Select boxes
+					.selectContainer {
+						position: relative;
+						width: 100%;
+
+						select {
+							// Manual text alignment
+							padding-top: 14px;
+
+							// Don't manually align in firefox
+							@-moz-document url-prefix() {
+								padding-top: 0;
+							}
+
+							padding-right: v.$gap_4_5;
+							vertical-align: top;
+
+							// Placeholder
+							&:has(option[value='']:checked) {
+								color: v.$color_grey_light_1;
+							}
+						}
+
+						.icon {
+							@include i.icon($style: 'normal', $size: 'm', $color: 'grey_light_1');
+							position: absolute;
+							top: 50%;
+							right: 10px;
+							transform: translateY(-50%);
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+	/* Search results
+	-------------------------------------------------- */
+	.results {
+		flex-basis: 100%;
+		padding-top: v.$gap_4;
+		padding-right: v.$gap_2;
+		padding-bottom: v.$gap_4;
+		padding-left: v.$gap_2;
+		background: v.$color_white;
+		border-radius: v.$border_radius_s;
+
+
+		/* Results table
+		------------------------- */
+		.resultsTable {
+			border-collapse: collapse;
+			width: 100%;
+
+			// Small fix for typography system auto alignment when used inside tables
+			.text {
+				&::before,
+				&::after {
+					display: block !important;
+				}
+			}
+
+			// Headers
+			thead {
+				tr {
+					th {
+						padding-right: v.$gap_3;
+						padding-bottom: v.$gap_3;
+						text-align: left;
+
+						// Remove the spacing from the last column
+						&:last-child {
+							padding-right: 0;
+						}
+
+						// Shrink the first 2 cols
+						&:first-child,
+						&:nth-child(2) {
+							width: 0.1%;
+							white-space: nowrap;
+						}
+
+						// Content
+						.headerContainer {
+							display: inline-flex;
+							flex-wrap: nowrap;
+							align-items: center;
+							cursor: pointer;
+
+							.text {
+								@include t.text_m;
+								color: v.$color_grey_light_1;
+								transition: color v.$transition_fast linear;
+							}
+
+							.icon {
+								@include i.icon($style: 'regular', $size: 's', $color: 'primary');
+								transform: rotate(0deg);
+								display: none;
+								transition: transform v.$transition_fast linear;
+							}
+
+							@include m.hover {
+								.text {
+									color: v.$color_primary;
+								}
+							}
+						}
+
+						// Sorted header
+						&.sort {
+							.headerContainer {
+								.text {
+									color: v.$color_primary;
+								}
+
+								.icon {
+									display: flex;
+								}
+							}
+
+							// Rotate the arrow for "ascending" order
+							&.asc {
+								.headerContainer {
+									.icon {
+										transform: rotate(180deg);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// Body
+			tbody {
+				// Regular row
+				tr:not(.expandCollapseContent) {
+					position: relative;
+					cursor: pointer;
+
+					// Use a pseudo element for the hover state (this allows us to use a border radius)
+					td:first-child::before {
+						content: '';
+						position: absolute;
+						top: 0;
+						right: 0;
+						bottom: 0;
+						left: 0;
+						opacity: 0;
+						background: transparent;
+						border-radius: v.$border_radius_s;
+						transition: opacity v.$transition_fast linear;
+					}
+
+					// Show the pseudo element on hover
+					@include m.hover {
+						td:first-child::before {
+							opacity: 1;
+							background: v.$color_grey_light_3;
+						}
+					}
+
+					// Darken the pseudo element on click
+					&:active {
+						td:first-child::before {
+							background: v.$color_grey_light_3;
+						}
+					}
+
+					// Cell
+					td {
+						padding-top: v.$gap_1;
+						padding-right: v.$gap_3;
+						padding-bottom: v.$gap_1;
+						padding-left: v.$gap_1_5;
+
+						// Remove spacing from the last column
+						&:last-child {
+							padding-right: 0;
+						}
+
+						// Shrink the first 2 cols
+						&:first-child,
+						&:nth-child(2) {
+							width: 0.1%;
+							white-space: nowrap;
+						}
+
+						// Expand / collapse button
+						.expandCollapseButton {
+							@include m.reset;
+							position: relative;
+							z-index: 1;
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							width: v.$gap_5;
+							height: v.$gap_5;
+							margin-left: auto;
+							border-radius: 999px;
+							cursor: pointer;
+							transition: background-color v.$transition_fast linear;
+
+							.icon {
+								@include i.icon($style: 'thick', $size: 'm', $color: 'black');
+								position: relative;
+								top: 0;
+								transform: rotate(0deg);
+								transition: transform v.$transition_fast linear;
+							}
+
+							@include m.hover {
+								background: rgba(v.$color_black, .1);
+							}
+
+							&:active {
+								background: rgba(v.$color_black, .2);
+							}
+						}
+
+						// Fund code
+						.fundCode {
+							position: relative;
+							z-index: 1;
+							display: inline-block;
+							padding: v.$gap_1_5;
+							background: v.$color_primary;
+							border-radius: 999px;
+
+							.text {
+								font-weight: v.$font_weight_semiBold;
+								color: v.$color_white;
+							}
+						}
+
+						// Text
+						.text {
+							position: relative;
+							z-index: 1;
+							@include t.text_m;
+						}
+					}
+				}
+
+				// Expanded row
+				tr.expanded {
+					// Add a background using a pseudo element (this allows us to use a border radius)
+					td:first-child::before {
+						opacity: 1;
+						background: v.$color_grey_light_4;
+						border-bottom-right-radius: 0;
+						border-bottom-left-radius: 0;
+					}
+
+					// Rotate the expand / collapse button arrow
+					td {
+						.expandCollapseButton {
+							.icon {
+								// Minor alignment fix
+								top: -1px;
+								transform: rotate(180deg);
+							}
+						}
+					}
+				}
+
+				// Expanded row's content (shows below the row)
+				tr.expandCollapseContent {
+					td {
+						position: relative;
+						top: -4px;
+						padding-top: v.$gap_3;
+						padding-right: v.$gap_1_5;
+						padding-bottom: v.$gap_4;
+						padding-left: v.$gap_9_5;
+
+						// Use a pseudo element for the background (this allows us to use a border radius)
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							right: 0;
+							bottom: 0;
+							left: 0;
+							background: v.$color_grey_light_4;
+							border-bottom-right-radius: v.$border_radius_s;
+							border-bottom-left-radius: v.$border_radius_s;
+							transition: opacity v.$transition_fast linear;
+						}
+
+						// Description
+						.description {
+							@include t.text_s;
+							position: relative;
+							z-index: 1;
+							margin-bottom: v.$gap_3;
+							font-weight: v.$font_weight_semiBold;
+							color: v.$color_grey_light_1;
+						}
+
+						// Info elements
+						.infoContainer {
+							position: relative;
+							z-index: 1;
+							display: flex;
+							flex-wrap: wrap;
+							gap: v.$gap_8;
+
+							.info {
+								.title {
+									@include t.text_s;
+									flex-basis: 100%;
+									width: 100%;
+									margin-bottom: v.$gap_1_5;
+									font-weight: v.$font_weight_semiBold;
+									color: v.$color_grey_light_1;
+								}
+
+								.text {
+									@include t.text_s;
+									flex-basis: 100%;
+									width: 100%;
+									color: v.$color_grey_light_1;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+		/* Skeleton loading
+		------------------------- */
+		.skeletonLoading {
+			border-collapse: collapse;
+			width: 100%;
+
+			// Box style
+			.box {
+				background: v.$color_grey_light_4;
+				border-radius: 999px;
+			}
+
+			// Header and body shared styles
+			th,
+			td {
+				// Remove spacing from last column
+				&:last-child {
+					padding-right: 0;
+				}
+
+				// Shrink the first and second columns
+				&:first-child,
+				&:nth-child(2) {
+					width: 0.1%;
+					white-space: nowrap;
+				}
+
+				// Set the box size for the first column
+				&:first-child {
+					.box {
+						width: v.$gap_5;
+						min-width: v.$gap_5;
+					}
+				}
+			}
+
+			// Headers
+			thead {
+				tr {
+					th {
+						padding-right: v.$gap_3;
+						padding-bottom: v.$gap_3;
+
+						// Set the header box size
+						.box {
+							min-width: v.$gap_8;
+							height: v.$gap_1_5;
+						}
+
+						// Hide the box in the first column
+						&:first-child {
+							.box {
+								background: transparent;
+							}
+						}
+					}
+				}
+			}
+
+			// Body
+			tbody {
+				tr {
+					td {
+						padding-top: v.$gap_1;
+						padding-right: v.$gap_3;
+						padding-bottom: v.$gap_1;
+
+						// Set the body box size
+						.box {
+							min-width: v.$gap_8;
+							height: v.$gap_5;
+						}
+					}
+				}
+			}
+		}
+
+
+		/* Pagination
+		------------------------- */
+		.pagination {
+			width: 100%;
+
+			.buttons {
+				display: flex;
+				flex-wrap: nowrap;
+				gap: v.$gap_3;
+				justify-content: center;
+				width: 100%;
+				margin-bottom: v.$gap_3;
+
+				// All buttons
+				button {
+					@include m.reset;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					width: v.$gap_4;
+					height: v.$gap_4;
+					background: v.$color_white;
+					border: 1px solid v.$color_grey_light_2;
+					border-radius: 999px;
+					cursor: pointer;
+					transition: border-color v.$transition_fast linear, background-color v.$transition_fast linear;
+
+					.text {
+						transition: color v.$transition_fast linear;
+					}
+
+					@include m.hover {
+						border-color: v.$color_grey_light_1;
+					}
+
+					&:active {
+						background: v.$color_grey_light_3;
+					}
+				}
+
+				// Next / prev buttons
+				.prev,
+				.next {
+					.icon {
+						@include i.icon($style: 'normal', $size: 'm', $color: 'black');
+					}
+
+					// Disabled state
+					&.disabled {
+						border-color: v.$color_grey_light_3;
+						pointer-events: none;
+
+						.icon {
+							color: v.$color_grey_light_2;
+						}
+					}
+				}
+
+				.next {
+					.icon {
+						position: relative;
+						right: -1px;
+					}
+				}
+
+				.prev {
+					.icon {
+						position: relative;
+						left: -1px;
+					}
+				}
+
+				// Page buttons
+				.pages {
+					display: inline-flex;
+					gap: v.$gap_0_5;
+
+					.page {
+						.text {
+							@include t.text_s;
+							color: v.$color_black;
+						}
+
+						// Ellipsis button
+						&.ellipsis {
+							border-color: v.$color_grey_light_3;
+							pointer-events: none;
+
+							.text {
+								color: v.$color_grey_light_1;
+							}
+						}
+
+						// Selected state
+						&.selected {
+							background: v.$color_primary;
+							border-color: v.$color_primary;
+
+							.text {
+								font-weight: v.$font_weight_bold;
+								color: v.$color_white;
+							}
+						}
+					}
+				}
+			}
+
+			// Results text
+			.resultsText {
+				@include t.text_s;
+				width: 100%;
+				color: v.$color_grey_light_1;
+				text-align: center;
+			}
+		}
+
+
+		/* No results
+		------------------------- */
+		.noResults {
+			// display: flex;
+			display: none;
+			flex-wrap: wrap;
+			gap: v.$gap_4;
+			width: 100%;
+			padding-top: v.$gap_2;
+			padding-bottom: v.$gap_2;
+			text-align: center;
+
+			.title {
+				@include t.text_h5;
+				flex-basis: 100%;
+			}
+
+			.text {
+				@include t.text_l;
+				flex-basis: 100%;
+
+				a {
+					color: v.$color_primary;
+					text-decoration: none;
+
+					@include m.hover {
+						text-decoration: underline;
+					}
+				}
+			}
+		}
+
+
+	}
+}

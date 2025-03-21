@@ -59,33 +59,37 @@ function handleError(res) {
 /* Create the server instance
 -------------------------------------------------- */
 const httpServer = httpInstance.createServer((req, res) => {
-	/* Load CSS
+	/* CSS
 	------------------------- */
 	if (req.url.indexOf('.css') !== -1) {
 		// Set the HTTP status
 		res.writeHead(httpStatusInstance.StatusCodes.OK, {
 			'Content-Type': 'text/css'
 		});
-
-		// Load the CSS
-		loadFile(req.url, res);
 	}
 
 
-	/* Load JS
+	/* JS
 	------------------------- */
 	else if (req.url.indexOf('.js') !== -1) {
 		// Set the HTTP status
 		res.writeHead(httpStatusInstance.StatusCodes.OK, {
 			'Content-Type': 'text/javascript'
 		});
-
-		// Load the JS
-		loadFile(req.url, res);
 	}
 
 
-	/* Load HTML
+	/* Fonts
+	------------------------- */
+	else if (req.url.indexOf('.woff2') !== -1) {
+		// Set the HTTP status
+		res.writeHead(httpStatusInstance.StatusCodes.OK, {
+			'Content-Type': 'font/woff2'
+		});
+	}
+
+
+	/* HTML
 	------------------------- */
 	else {
 		// Set the HTTP status
@@ -93,9 +97,12 @@ const httpServer = httpInstance.createServer((req, res) => {
 			'Content-Type': 'text/html'
 		});
 
-		// Load the HTML
-		loadFile('index.html', res);
+		// Update the file path
+		req.url = 'index.html';
 	}
+
+	// Load the file
+	loadFile(req.url, res);
 });
 
 
