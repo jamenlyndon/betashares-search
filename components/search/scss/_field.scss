@@ -37,7 +37,7 @@
 
 		// Icon
 		> .icon {
-			@include i.icon($style: 'thick', $size: 'm', $color: 'grey_light_1');
+			@include i.icon($style: 'thick', $size: 'm', $color: 'grey_light_2');
 			position: absolute;
 			top: 50%;
 			left: v.$gap_3;
