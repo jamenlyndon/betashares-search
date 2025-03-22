@@ -209,9 +209,28 @@
 						top: 50%;
 						right: 10px;
 						transform: translateY(-50%);
+						pointer-events: none;
 					}
 				}
 			}
+		}
+	}
+
+
+	/* Clear filters button
+	-------------------------------------------------- */
+	.clearFiltersButton {
+		@include m.reset;
+		color: v.$color_primary;
+		cursor: pointer;
+
+		.text {
+			@include t.text_s;
+			font-weight: v.$font_weight_semiBold;
+		}
+
+		@include m.hover {
+			text-decoration: underline;
 		}
 	}
 

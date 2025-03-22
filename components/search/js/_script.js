@@ -102,6 +102,31 @@
 
 	/* Field
 	---------------------------------------------------------------------------------------------------- */
+	/* Init
+	-------------------------------------------------- */
+	function field_init() {
+		/* Attach event listeners
+		------------------------- */
+		// Input - blur
+		dom_field_input?.addEventListener('blur', field_handleBlur);
+
+		// Input - focus
+		dom_field_input?.addEventListener('focus', field_handleFocusInputClick);
+
+		// Input - click
+		dom_field_input?.addEventListener('click', field_handleFocusInputClick);
+
+		// Input - input
+		dom_field_input?.addEventListener('input', field_handleFocusInputClick);
+
+		// Input - key down
+		dom_field_input?.addEventListener('keydown', field_handleKeyDown);
+
+		// Search button - click
+		dom_field_button?.addEventListener('click', results_show);
+	}
+
+
 	/* Handle focus / input / click
 	-------------------------------------------------- */
 	function field_handleFocusInputClick(event) {
@@ -109,12 +134,7 @@
 		helper_addClass('focus', dom_field);
 
 		// Get the search text
-		let searchText = dom_field_input?.value;
-
-		// Ensure the search text is a string
-		if (!searchText) {
-			searchText = '';
-		}
+		const searchText = dom_field_input?.value;
 
 		// If there's no search text and we have empty suggestions preloaded
 		if (searchText === '' && emptySuggestions) {
@@ -129,7 +149,7 @@
 			// Query the search API (limit to 8 results)
 			api_query(
 				{
-					'search_text': searchText,
+					'search_text': searchText ? searchText : '',
 					'size': 8
 				},
 				(data) => {
@@ -189,6 +209,25 @@
 
 	/* Suggestions
 	---------------------------------------------------------------------------------------------------- */
+	// Create a variable to hold the empty search field suggestions
+	let emptySuggestions;
+	function suggestions_init() {
+		/* Fetch some suggestions to display instantly (these show when the search field is empty)
+		------------------------- */
+		// Query the API with an empty string (limit to 8 results)
+		api_query(
+			{
+				'search_text': '',
+				'size': 8
+			},
+			(data) => {
+				// Populate the empty suggestions with the returned data
+				emptySuggestions = data;
+			}
+		);
+	}
+
+
 	/* Populate and show suggestions
 	-------------------------------------------------- */
 	function suggestions_show(data) {
@@ -422,88 +461,382 @@
 
 
 
+	/* Filters
+	---------------------------------------------------------------------------------------------------- */
+	/* Init
+	-------------------------------------------------- */
+	function filters_init() {
+		/* Attach event listeners
+		------------------------- */
+		// Filter results button - click
+		dom_filters_button?.addEventListener('click', filters_button_handleClick);
+
+		// Close button - click
+		dom_filters_closeButton?.addEventListener('click', filters_closeButton_handleClick);
+
+		// Clear filters button - click
+		dom_filters_clearFiltersButton?.addEventListener('click', filters_clearFiltersButton_handleClick);
+
+		// No results message - clear filters - click
+		dom_results_noResults_clearFilters?.addEventListener('click', filters_clearFiltersButton_handleClick);
+
+		// All fields - on change
+		const fields = dom_filters_form.querySelectorAll('input, select');
+		fields.forEach((field) => {
+			field.addEventListener('input', () => {
+				// Delay by one animation frame - this allows the auto formatting setup below to complete first
+				window.requestAnimationFrame(() => {
+					// Update the active filters count
+					filters_button_updateActiveFiltersCount();
+
+					// Reload the results (keep filters)
+					results_show(true);
+				});
+			});
+		});
+
+
+		/* Setup auto formatting for min field values
+		------------------------- */
+		// Get all fields with a "data-min" attribute
+		const minFields = dom_filters_form.querySelectorAll('input[data-min]');
+
+		// For each field
+		minFields.forEach((field) => {
+			// On input
+			field.addEventListener('input', (event) => {
+				// Target the field element
+				const fieldElement = event.target;
+
+				// Get the field value (as a number)
+				const fieldValue = parseFloat(fieldElement.value);
+
+				// Get the min attribute (as a number)
+				const minAttr = parseFloat(fieldElement.getAttribute('data-min'));
+
+				// If the value is less than the min attribute
+				if (fieldValue < minAttr) {
+					// Set the field value to be the min attribute
+					fieldElement.value = minAttr;
+				}
+			});
+		});
+
+
+		/* Setup auto formatting for max field values
+		------------------------- */
+		// Get all fields with a "data-max" attribute
+		const maxFields = dom_filters_form.querySelectorAll('input[data-max]');
+
+		// For each field
+		maxFields.forEach((field) => {
+			// On input
+			field.addEventListener('input', (event) => {
+				// Target the field element
+				const fieldElement = event.target;
+
+				// Get the field value (as a number)
+				const fieldValue = parseFloat(fieldElement.value);
+
+				// Get the max attribute (as a number)
+				const maxAttr = parseFloat(fieldElement.getAttribute('data-max'));
+
+				// If the value is greater than the max attribute
+				if (fieldValue > maxAttr) {
+					// Set the field value to be the max attribute
+					fieldElement.value = maxAttr;
+				}
+			});
+		});
+	}
+
+
+	/* Update the active filters count (this is the text in brackets that appears next to the "filter results" button)
+	-------------------------------------------------- */
+	function filters_button_updateActiveFiltersCount() {
+		// Set a variable to count the active filters
+		let activeFilters = 0;
+
+		// Target the active filters element
+		const activeFiltersElement = dom_filters_button?.querySelector('.activeFilters');
+
+		// Sanity check - make sure we found the active filters element
+		if (!activeFiltersElement) {
+			return;
+		}
+
+		// Target all filter fields
+		const filterFields = dom_filters_form.querySelectorAll('input, select');
+
+		// For each filter field
+		filterFields.forEach((field) => {
+			// If there's a value set
+			if (field.value !== '') {
+				// Increment the active filters count
+				activeFilters++;
+			}
+		});
+
+		// If we have active filters
+		if (activeFilters > 0) {
+			// Add the text to the active filters element
+			activeFiltersElement.innerHTML = ' (' + activeFilters + ')';
+
+			// Show the no results message - clear filters element
+			helper_removeClass('hidden', dom_results_noResults_clearFilters);
+		}
+		// Otherwise, we do not have active filters
+		else {
+			// Remove the text from the active filters element
+			activeFiltersElement.innerHTML = '';
+
+			// Hide the no results message - clear filters element
+			helper_addClass('hidden', dom_results_noResults_clearFilters);
+		}
+	}
+
+
+	/* Filter results button - handle click
+	-------------------------------------------------- */
+	function filters_button_handleClick(event) {
+		// Show / hide the filters popup
+		dom_filters_popup?.classList.toggle('hidden');
+	}
+
+
+	/* Close button - handle click
+	-------------------------------------------------- */
+	function filters_closeButton_handleClick(event) {
+		// Hide the filters popup
+		helper_addClass('hidden', dom_filters_popup);
+	}
+
+
+	/* Clear filters - handle click
+	-------------------------------------------------- */
+	function filters_clearFiltersButton_handleClick(event) {
+		// Reset the filters form
+		dom_filters_form.reset();
+
+		// Hide the filters popup
+		helper_addClass('hidden', dom_filters_popup);
+
+		// Update the active filters count
+		filters_button_updateActiveFiltersCount();
+
+		// Reload the results (keep filters)
+		results_show(true);
+	}
+
+
+
 	/* Results
 	---------------------------------------------------------------------------------------------------- */
-	/* Populate and show search results
+	/* Populate search results
 	-------------------------------------------------- */
-	function results_show() {
+	function results_populate() {
+		// Get the search text
+		const searchText = dom_field_input?.value;
+
+		// Get the filters
+		const fundSize_min = dom_filters_form?.querySelector('input[name="fundSize_min"]').value;
+		const fundSize_max = dom_filters_form?.querySelector('input[name="fundSize_max"]').value;
+
+		const managementFee_min = dom_filters_form?.querySelector('input[name="managementFee_min"]').value;
+		const managementFee_max = dom_filters_form?.querySelector('input[name="managementFee_max"]').value;
+
+		const oneYearReturn_min = dom_filters_form?.querySelector('input[name="oneYearReturn_min"]').value;
+		const oneYearReturn_max = dom_filters_form?.querySelector('input[name="oneYearReturn_max"]').value;
+
+		const fiveYearReturn_min = dom_filters_form?.querySelector('input[name="fiveYearReturn_min"]').value;
+		const fiveYearReturn_max = dom_filters_form?.querySelector('input[name="fiveYearReturn_max"]').value;
+
+		const fundCategory = dom_filters_form?.querySelector('select[name="fundCategory"]').value;
+		const investmentSuitability = dom_filters_form?.querySelector('input[name="investmentSuitability"]').value;
+		const managementApproach = dom_filters_form?.querySelector('input[name="managementApproach"]').value;
+		const dividendFrequency = dom_filters_form?.querySelector('select[name="dividendFrequency"]').value;
+
+		// Build the query params
+		const params = {
+			'search_text': searchText ? searchText : '',
+			'fund_size': {
+				'min': fundSize_min ? fundSize_min : null,
+				'max': fundSize_max ? fundSize_max : null
+			},
+			'management_fee': {
+				'min': managementFee_min ? managementFee_min : null,
+				'max': managementFee_max ? managementFee_max : null
+			},
+			'one_year_return': {
+				'min': oneYearReturn_min ? oneYearReturn_min : null,
+				'max': oneYearReturn_max ? oneYearReturn_max : null
+			},
+			'five_year_return': {
+				'min': fiveYearReturn_min ? fiveYearReturn_min : null,
+				'max': fiveYearReturn_max ? fiveYearReturn_max : null
+			},
+			'asset_categories': fundCategory ? [fundCategory] : [],
+			'investment_suitability': investmentSuitability ? [investmentSuitability] : [],
+			'management_approach': managementApproach ? [managementApproach] : [],
+			'dividend_frequency': dividendFrequency ? [dividendFrequency] : []
+		};
+
+		// Query the search API
+		api_query(
+			params,
+			(data) => {
+				// If we got no data back
+				if (typeof data !== 'object' || typeof data.results !== 'object' || data.results.length === 0) {
+					// Hide results loading, table, pagination
+					helper_addClass('hidden', dom_results_loading);
+					helper_addClass('hidden', dom_results_table);
+					helper_addClass('hidden', dom_results_pagination);
+
+					// Show the no results message
+					helper_removeClass('hidden', dom_results_noResults);
+				}
+				else {
+					console.log('results', data);
+				}
+			}
+		);
+	}
+
+
+	/* Show search results
+	-------------------------------------------------- */
+	function results_show(keepFilters = false) {
 		// Hide the suggestions
 		suggestions_hide();
 
 		// Blur the field
 		dom_field_input?.blur();
 
-		// Show the results
-		console.log('todo: show the results');
+		// Get the search text
+		const searchText = dom_field_input?.value;
+
+		// If the search text is empty
+		if (!searchText) {
+			// Hide the results
+			results_hide();
+			return;
+		}
+
+		// Show the filter button
+		helper_removeClass('hidden', dom_filters_button);
+
+		// If we're not keeping the filters
+		if (!keepFilters) {
+			// Reset the filters form
+			dom_filters_form.reset();
+
+			// Update the active filters count
+			filters_button_updateActiveFiltersCount();
+
+			// Hide the filters popup
+			helper_addClass('hidden', dom_filters_popup);
+		}
+
+		// Hide results table, pagination, no results message
+		helper_addClass('hidden', dom_results_table);
+		helper_addClass('hidden', dom_results_pagination);
+		helper_addClass('hidden', dom_results_noResults);
+
+		// Show results loading, container
+		helper_removeClass('hidden', dom_results_loading);
+		helper_removeClass('hidden', dom_results);
+
+		// Populate the results
+		results_populate();
 	}
 
 
+	/* Hide search results
+	-------------------------------------------------- */
+	function results_hide() {
+		// Abort any currently running queries
+		api_abort();
 
-	/* Init
+		// Hide the results
+		helper_addClass('hidden', dom_results);
+
+		// Hide the filter button
+		helper_addClass('hidden', dom_filters_button);
+
+		// Hide the filters form
+		helper_addClass('hidden', dom_filters_popup);
+	}
+
+
+	/* Setup
 	---------------------------------------------------------------------------------------------------- */
 	/* Target DOM elements
 	-------------------------------------------------- */
-	// Component
+	/* Component
+	------------------------- */
 	const dom_search = document.querySelector('.search');
 
-	// Field
+
+	/* Field
+	------------------------- */
+	// Search field container
 	const dom_field = dom_search?.querySelector('.field .searchField');
+
+	// Input
 	const dom_field_input = dom_field?.querySelector('input');
+
+	// Search button
 	const dom_field_button = dom_field?.querySelector('.searchButton');
 
 	// Suggestions
 	const dom_suggestions = dom_search?.querySelector('.suggestions');
 
-	// Filters
+
+	/* Filters
+	------------------------- */
+	// Filter results button
 	const dom_filters_button = dom_search?.querySelector('.filterButton');
-	const dom_filters_form = dom_search?.querySelector('.filters');
 
-	// Results
+	// Popup container
+	const dom_filters_popup = dom_search?.querySelector('.filters');
+
+	// Close button
+	const dom_filters_closeButton = dom_filters_popup?.querySelector('.closeButton');
+
+	// Form
+	const dom_filters_form = dom_filters_popup?.querySelector('form');
+
+	// Clear filters button
+	const dom_filters_clearFiltersButton = dom_filters_popup?.querySelector('.clearFiltersButton');
+
+
+	/* Results
+	------------------------- */
+	// Results container
 	const dom_results = dom_search?.querySelector('.results');
+
+	// Table
 	const dom_results_table = dom_results?.querySelector('.resultsTable');
+
+	// Loading
 	const dom_results_loading = dom_results?.querySelector('.skeletonLoading');
+
+	// Pagination
 	const dom_results_pagination = dom_results?.querySelector('.pagination');
-	const dom_results_empty = dom_results?.querySelector('.noResults');
+
+	// No results message
+	const dom_results_noResults = dom_results?.querySelector('.noResults');
+	const dom_results_noResults_clearFilters = dom_results_noResults?.querySelector('.clearFilters');
 
 
-	/* Attach event listeners
+	/* Call init functions
 	-------------------------------------------------- */
-	// Field input - blur
-	dom_field_input?.addEventListener('blur', field_handleBlur);
+	// Field
+	field_init();
 
-	// Field input - focus
-	dom_field_input?.addEventListener('focus', field_handleFocusInputClick);
+	// Suggestions
+	suggestions_init();
 
-	// Field input - click
-	dom_field_input?.addEventListener('click', field_handleFocusInputClick);
-
-	// Field input - input
-	dom_field_input?.addEventListener('input', field_handleFocusInputClick);
-
-	// Field input - key down
-	dom_field_input?.addEventListener('keydown', field_handleKeyDown);
-
-	// Field button - click
-	dom_field_button?.addEventListener('click', results_show);
-
-
-	/* Gets some suggestions to display instantly (these show when the search field is empty)
-	-------------------------------------------------- */
-	// Create a variable to hold the empty search field suggestions
-	let emptySuggestions;
-
-	// Query the API with an empty string (limit to 8 results)
-	api_query(
-		{
-			'search_text': '',
-			'size': 8
-		},
-		(data) => {
-			// Populate the empty suggestions with the returned data
-			emptySuggestions = data;
-		}
-	);
-
-
-
+	// Filters
+	filters_init();
 })();

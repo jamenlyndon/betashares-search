@@ -446,8 +446,15 @@
 		/* Box style
 		-------------------------------------------------- */
 		.box {
-			background: v.$color_grey_light_4;
+			background: linear-gradient(120deg, v.$color_grey_light_4 40%, lighten(v.$color_grey_light_4, 1.5%), v.$color_grey_light_4 60%) right / 300% 100%;
 			border-radius: 999px;
+  		animation: shine 1.5s linear infinite;
+		}
+
+		@keyframes shine {
+			to {
+				background-position: left;
+			}
 		}
 
 

@@ -18,7 +18,9 @@
 
 		<!-- Suggestions
 		================================================== -->
-		<div class='suggestions hidden'></div>
+		<div class='suggestions hidden'>
+			<!-- This is populated dynamically with JS -->
+		</div> <!-- .suggestions -->
 	</div> <!-- .field -->
 
 
@@ -26,7 +28,7 @@
 	================================================== -->
 	<button class='filterButton hidden'>
 		<div class='icon'>tune</div>
-		<div class='text'>Filter results</div>
+		<div class='text'>Filter results<span class='activeFilters'></span></div>
 	</button> <!-- .filterButton -->
 
 	<div class='filters hidden'>
@@ -41,32 +43,32 @@
 			<div class='filter'>
 				<div class='label'>Fund size</div>
 				<div class='fields'>
-					<input type='number' placeholder='Min' name='fundSize_min'>
-					<input type='number' placeholder='Max' name='fundSize_max'>
+					<input type='number' placeholder='Min' name='fundSize_min' data-min='0'>
+					<input type='number' placeholder='Max' name='fundSize_max' data-min='0'>
 				</div> <!-- .fields -->
 			</div> <!-- .filter -->
 
 			<div class='filter'>
 				<div class='label'>Management fee (%)</div>
 				<div class='fields'>
-					<input type='number' placeholder='Min' step='0.01' name='managementFee_min'>
-					<input type='number' placeholder='Max' step='0.01' name='managementFee_max'>
+					<input type='number' placeholder='Min' step='0.01' name='managementFee_min' data-min='0' data-max='100'>
+					<input type='number' placeholder='Max' step='0.01' name='managementFee_max' data-min='0' data-max='100'>
 				</div> <!-- .fields -->
 			</div> <!-- .filter -->
 
 			<div class='filter'>
 				<div class='label'>1 year return (%)</div>
 				<div class='fields'>
-					<input type='number' placeholder='Min' name='oneYearReturn_min'>
-					<input type='number' placeholder='Max' name='oneYearReturn_max'>
+					<input type='number' placeholder='Min' name='oneYearReturn_min' data-min='0' data-max='100'>
+					<input type='number' placeholder='Max' name='oneYearReturn_max' data-min='0' data-max='100'>
 				</div> <!-- .fields -->
 			</div> <!-- .filter -->
 
 			<div class='filter'>
 				<div class='label'>Five year return (%)</div>
 				<div class='fields'>
-					<input type='number' placeholder='Min' name='fiveYearReturn_min'>
-					<input type='number' placeholder='Max' name='fiveYearReturn_max'>
+					<input type='number' placeholder='Min' name='fiveYearReturn_min' data-min='0' data-max='100'>
+					<input type='number' placeholder='Max' name='fiveYearReturn_max' data-min='0' data-max='100'>
 				</div> <!-- .fields -->
 			</div> <!-- .filter -->
 
@@ -77,16 +79,16 @@
 						<select name='fundCategory'>
 							<option value='' selected>All categories</option>
 							<option value='example_category'>Example category</option>
-						</select> <!-- .fundCategory -->
+						</select>
 						<div class='icon'>keyboard_arrow_down</div>
 					</div> <!-- .selectContainer -->
 				</div> <!-- .fields -->
 			</div> <!-- .filter -->
 
 			<div class='filter'>
-				<div class='label'>Investment sustainability</div>
+				<div class='label'>Investment suitability</div>
 				<div class='fields'>
-					<input type='text' placeholder='Enter keywords' name='investmentSustainability'>
+					<input type='text' placeholder='Enter keywords' name='investmentSuitability'>
 				</div> <!-- .fields -->
 			</div> <!-- .filter -->
 
@@ -98,31 +100,35 @@
 			</div> <!-- .filter -->
 
 			<div class='filter'>
-				<div class='label'>Divident frequency</div>
+				<div class='label'>Dividend frequency</div>
 				<div class='fields'>
 					<div class='selectContainer'>
-						<select name='fundCategory'>
+						<select name='dividendFrequency'>
 							<option value='' selected>All frequencies</option>
 							<option value='annual'>Annual</option>
 							<option value='quarterly'>Quarterly</option>
 							<option value='monthly'>Monthly</option>
 							<option value='weekly'>Weekly</option>
-						</select> <!-- .fundCategory -->
+						</select>
 
 						<div class='icon'>keyboard_arrow_down</div>
 					</div> <!-- .selectContainer -->
 				</div> <!-- .fields -->
 			</div> <!-- .filter -->
 		</form>
+
+		<button class='clearFiltersButton'>
+			<div class='text'>Clear all filters</div>
+		</button>
 	</div> <!-- .filters -->
 
 
 	<!-- Results
 	================================================== -->
-	<div class='results'>
+	<div class='results hidden'>
 		<!-- Results table
 		========================= -->
-		<table class='resultsTable'>
+		<table class='resultsTable hidden'>
 			<thead>
 				<tr>
 					<th></th>
@@ -345,7 +351,7 @@
 		========================= -->
 		<div class='noResults hidden'>
 			<div class='title'>Sorry, we could not find any results for "<i>typed value</i>".</div>
-			<div class='text'>Try searching for something else or <a href='https://www.betashares.com.au/fund/'>view all funds</a></div>
+			<div class='text'>Try searching for something else<span class='clearFilters hidden'>, <a href='javascript:;'>clear all filters</a></span> or <a href='https://www.betashares.com.au/fund/'>view all funds</a></div>
 		</div> <!-- .noResults -->
 	</div> <!-- .results -->
 
