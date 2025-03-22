@@ -70,6 +70,14 @@ h1 {
 
 
 
+/* Hidden helper class (we make use of "!important" here, as we want these to always override specificity)
+---------------------------------------------------------------------------------------------------- */
+.hidden {
+	display: none !important;
+}
+
+
+
 /* Responsive helper classes (we make use of "!important" here, as we want these to always override specificity)
 ---------------------------------------------------------------------------------------------------- */
 @media (max-width: v.$breakpoint_l) {

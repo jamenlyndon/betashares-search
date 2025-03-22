@@ -78,7 +78,22 @@
 					<div class='selectContainer'>
 						<select name='fundCategory'>
 							<option value='' selected>All categories</option>
-							<option value='example_category'>Example category</option>
+							<option>Australian Equities</option>
+							<option>Cash</option>
+							<option>Australian Bonds</option>
+							<option>Technology</option>
+							<option>Thematic</option>
+							<option>Shorts Funds & Geared Funds</option>
+							<option>International Bonds</option>
+							<option>International Equities</option>
+							<option>Diversified</option>
+							<option>International Equities - Emerging Markets</option>
+							<option>International - Countries & Regions</option>
+							<option>International Equities - Asia</option>
+							<option>Gold & Commodities</option>
+							<option>International Equities - US</option>
+							<option>Currency</option>
+							<option>Property & Infrastructure</option>
 						</select>
 						<div class='icon'>keyboard_arrow_down</div>
 					</div> <!-- .selectContainer -->
@@ -108,7 +123,6 @@
 							<option value='annual'>Annual</option>
 							<option value='quarterly'>Quarterly</option>
 							<option value='monthly'>Monthly</option>
-							<option value='weekly'>Weekly</option>
 						</select>
 
 						<div class='icon'>keyboard_arrow_down</div>
@@ -177,88 +191,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>
-						<button class='expandCollapseButton'>
-							<div class='icon'>keyboard_arrow_down</div>
-						</button> <!-- .expandCollapseButton -->
-					</td>
-					<td>
-						<div class='fundCode'>
-							<div class='text'>A200</div>
-						</div> <!-- .fundCode -->
-					</td>
-					<td>
-						<div class='text'>Australia 200 ETF</div>
-					</td>
-					<td class='hide_l'>
-						<div class='text'>ETF</div>
-					</td>
-					<td class='hide_l'>
-						<div class='text'>6829</div>
-					</td>
-					<td class='hide_s'>
-						<div class='text'>5.26%</div>
-					</td>
-					<td class='hide_s'>
-						<div class='text'>15.73%</div>
-					</td>
-					<td class='hide_s'>
-						<div class='text'>0.04%</div>
-					</td>
-				</tr>
-				<tr class='expandCollapseContent'>
-					<td colspan='8'>
-						<div class='description'>The world's lowest cost Australian shares index ETF</div>
-
-						<div class='infoContainer'>
-							<div class='info hidden show_l'>
-								<div class='title'>Type</div>
-								<div class='text'>EFT</div>
-							</div> <!-- .info -->
-
-							<div class='info hidden show_l'>
-								<div class='title'>Fund size</div>
-								<div class='text'>6829</div>
-							</div> <!-- .info -->
-
-							<div class='info hidden show_s'>
-								<div class='title'>1 year return</div>
-								<div class='text'>5.26%</div>
-							</div> <!-- .info -->
-
-							<div class='info hidden show_s'>
-								<div class='title'>5 year return</div>
-								<div class='text'>15.73%</div>
-							</div> <!-- .info -->
-
-							<div class='info hidden show_s'>
-								<div class='title'>Cost p/a</div>
-								<div class='text'>0.04%</div>
-							</div> <!-- .info -->
-
-							<div class='info'>
-								<div class='title'>Categories</div>
-								<div class='text'>Diversified, Australian Shares</div>
-							</div> <!-- .info -->
-
-							<div class='info'>
-								<div class='title'>Investment sustainability</div>
-								<div class='text'>Capital growth and regular income</div>
-							</div> <!-- .info -->
-
-							<div class='info'>
-								<div class='title'>Management approach</div>
-								<div class='text'>Passive</div>
-							</div> <!-- .info -->
-
-							<div class='info'>
-								<div class='title'>Dividend frequency</div>
-								<div class='text'>Quarterly</div>
-							</div> <!-- .info -->
-						</div> <!-- .infoContainer -->
-					</td>
-				</tr> <!-- .expandCollapseContent -->
+				<!-- This is populated dynamically with JS -->
 			</tbody>
 		</table> <!-- .resultsTable -->
 
@@ -350,8 +283,8 @@
 		<!-- No results
 		========================= -->
 		<div class='noResults hidden'>
-			<div class='title'>Sorry, we could not find any results for "<i>typed value</i>".</div>
-			<div class='text'>Try searching for something else<span class='clearFilters hidden'>, <a href='javascript:;'>clear all filters</a></span> or <a href='https://www.betashares.com.au/fund/'>view all funds</a></div>
+			<div class='title'>Sorry, we could not find any results.</div>
+			<div class='text'>Try searching for something else<span class='clearFilters hidden'>, <a href='javascript:;'>clear all filters</a></span> or <a href='https://www.betashares.com.au/fund/'>view all funds</a>.</div>
 		</div> <!-- .noResults -->
 	</div> <!-- .results -->
 

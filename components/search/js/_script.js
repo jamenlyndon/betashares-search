@@ -19,6 +19,13 @@
 	}
 
 
+	/* Make the first letter uppercase
+	-------------------------------------------------- */
+	function helper_ucFirst(str) {
+		return str && String(str[0]).toUpperCase() + String(str).slice(1);
+	}
+
+
 
 	/* Search API
 	---------------------------------------------------------------------------------------------------- */
@@ -235,15 +242,17 @@
 		let htmlOutput = '';
 
 		// If we have data
-		if (typeof data !== 'undefined') {
+		if (typeof data === 'object' && typeof data.results === 'object' && data.results.length > 0) {
 			// Loop through the results and create HTML to populate the suggestions
-			data?.results?.forEach((result) => {
-				htmlOutput += `
-					<button class='suggestion'>
-						<div class='icon'>search</div>
-						<div class='text'>${result.display_name}</div>
-					</button> <!-- .suggestion -->
-				`;
+			data.results.forEach((result) => {
+				if (typeof result.display_name === 'string') {
+					htmlOutput += `
+						<button class='suggestion'>
+							<div class='icon'>search</div>
+							<div class='text'>${result.display_name}</div>
+						</button> <!-- .suggestion -->
+					`;
+				}
 			});
 
 			// Populate the suggestions
@@ -675,7 +684,7 @@
 				'min': fiveYearReturn_min ? fiveYearReturn_min : null,
 				'max': fiveYearReturn_max ? fiveYearReturn_max : null
 			},
-			'asset_categories': fundCategory ? [fundCategory] : [],
+			'categories': fundCategory ? [fundCategory] : [],
 			'investment_suitability': investmentSuitability ? [investmentSuitability] : [],
 			'management_approach': managementApproach ? [managementApproach] : [],
 			'dividend_frequency': dividendFrequency ? [dividendFrequency] : []
@@ -695,8 +704,143 @@
 					// Show the no results message
 					helper_removeClass('hidden', dom_results_noResults);
 				}
+
+				// Otherwise, we got data back
 				else {
-					console.log('results', data);
+					// Create a variable to hold the HTML output
+					let htmlOutput = '';
+
+					// For each result
+					data.results.forEach((result) => {
+						// Format the data
+						const data_code = result.symbol ? result.symbol.toUpperCase() : '-';
+						const data_fundName = result.display_name ? helper_ucFirst(result.display_name) : '-';
+						let data_type = result.kind ? helper_ucFirst(result.kind) : '-';
+						if (data_type === 'Etf') {
+							data_type = 'ETF';
+						}
+						const data_fundSize = result.fund_size ? parseInt(result.fund_size) : '-';
+						const data_oneYearReturn = result.one_year_return ? (parseFloat(result.one_year_return).toFixed(2) + '%') : '-';
+						const data_fiveYearReturn = result.five_year_return ? (parseFloat(result.five_year_return).toFixed(2) + '%') : '-';
+						const data_managementCost = result.management_fee ? (parseFloat(result.management_fee).toFixed(2) + '%') : '-';
+						const data_description = result.flagship_description_short ? ("<div class='description'>" + helper_ucFirst(result.flagship_description_short) + "</div>") : '';
+						const data_categories = result.categories.length ? result.categories.join(', ') : '-';
+						const data_investmentSuitability = result.investment_suitability ? helper_ucFirst(result.investment_suitability) : '-';
+						const data_managementApproach = result.management_approach ? helper_ucFirst(result.management_approach) : '-';
+						const data_dividendFrequency = result.dividend_frequency ? helper_ucFirst(result.dividend_frequency) : '-';
+
+						// Create HTML to populate the results table
+						htmlOutput += `
+							<tr class='result'>
+								<td>
+									<button class='expandCollapseButton'>
+										<div class='icon'>keyboard_arrow_down</div>
+									</button> <!-- .expandCollapseButton -->
+								</td>
+								<td>
+									<div class='fundCode'>
+										<div class='text'>${data_code}</div>
+									</div> <!-- .fundCode -->
+								</td>
+								<td>
+									<div class='text fundName'>${data_fundName}</div>
+								</td>
+								<td class='hide_l'>
+									<div class='text'>${data_type}</div>
+								</td>
+								<td class='hide_l'>
+									<div class='text'>${data_fundSize}</div>
+								</td>
+								<td class='hide_s'>
+									<div class='text'>${data_oneYearReturn}</div>
+								</td>
+								<td class='hide_s'>
+									<div class='text'>${data_fiveYearReturn}</div>
+								</td>
+								<td class='hide_s'>
+									<div class='text'>${data_managementCost}</div>
+								</td>
+							</tr>
+
+							<tr class='expandCollapseContent hidden'>
+								<td colspan='8'>
+									${data_description}
+
+									<div class='infoContainer'>
+										<div class='info hidden show_l'>
+											<div class='title'>Type</div>
+											<div class='text'>${data_type}</div>
+										</div> <!-- .info -->
+
+										<div class='info hidden show_l'>
+											<div class='title'>Fund size</div>
+											<div class='text'>${data_fundSize}</div>
+										</div> <!-- .info -->
+
+										<div class='info hidden show_s'>
+											<div class='title'>1 year return</div>
+											<div class='text'>${data_oneYearReturn}</div>
+										</div> <!-- .info -->
+
+										<div class='info hidden show_s'>
+											<div class='title'>5 year return</div>
+											<div class='text'>${data_fiveYearReturn}</div>
+										</div> <!-- .info -->
+
+										<div class='info hidden show_s'>
+											<div class='title'>Cost p/a</div>
+											<div class='text'>${data_managementCost}</div>
+										</div> <!-- .info -->
+
+										<div class='info'>
+											<div class='title'>Categories</div>
+											<div class='text'>${data_categories}</div>
+										</div> <!-- .info -->
+
+										<div class='info'>
+											<div class='title'>Investment suitability</div>
+											<div class='text'>${data_investmentSuitability}</div>
+										</div> <!-- .info -->
+
+										<div class='info'>
+											<div class='title'>Management approach</div>
+											<div class='text'>${data_managementApproach}</div>
+										</div> <!-- .info -->
+
+										<div class='info'>
+											<div class='title'>Dividend frequency</div>
+											<div class='text'>${data_dividendFrequency}</div>
+										</div> <!-- .info -->
+									</div> <!-- .infoContainer -->
+								</td>
+							</tr> <!-- .expandCollapseContent -->
+						`;
+					});
+
+					// Target the results table body
+					const resultsTableBody = dom_results_table?.querySelector('tbody');
+
+					// Make sure we found the table body
+					if (resultsTableBody) {
+						// Populate the results table body
+						resultsTableBody.innerHTML = htmlOutput;
+					}
+
+					// Hide results loading, no results message
+					helper_addClass('hidden', dom_results_loading);
+					helper_addClass('hidden', dom_results_noResults);
+
+					// Show the results table, pagination
+					helper_removeClass('hidden', dom_results_table);
+					helper_removeClass('hidden', dom_results_pagination);
+
+
+					// Attach event listeners to the results
+					const results = dom_results_table?.querySelectorAll('.result');
+					results.forEach((result) => {
+						// Click
+						result.addEventListener('click', results_handleClick);
+					});
 				}
 			}
 		);
@@ -768,6 +912,53 @@
 	}
 
 
+	/* Handle click
+	-------------------------------------------------- */
+	function results_handleClick(event) {
+		// Target the result container
+		const result = event.target.closest('.result');
+
+		// If we found the result container
+		if (result) {
+			// If the result is collapsed
+			if (!result.classList.contains('expanded')) {
+				// Collapse any other already expanded results
+				helper_removeClass('expanded', dom_results_table.querySelector('.result.expanded'));
+
+				// Expand this result
+				result.classList.add('expanded');
+			}
+			// Otherwise the result is expanded
+			else {
+				// Collapse this result
+				result.classList.remove('expanded');
+			}
+
+
+			// Target the "expand / collapse content" (this is the next element in the DOM)
+			const expandCollapseContent = result.nextElementSibling;
+
+			// If we found the "expand / collapse content"
+			if (expandCollapseContent) {
+				// If the "expand / collapse content" is hidden
+				if (expandCollapseContent.classList.contains('hidden')) {
+					// Hide any other already visible "expand / collapse content"
+					dom_results_table.querySelector('.expandCollapseContent:not(.hidden)')?.classList.add('hidden');
+
+					// Show this "expand / collapse content"
+					expandCollapseContent.classList.remove('hidden');
+				}
+				// Otherwise the "expand / collapse content" is visible
+				else {
+					// Hide this "expand / collapse content"
+					expandCollapseContent.classList.add('hidden');
+				}
+			}
+		}
+	}
+
+
+
 	/* Setup
 	---------------------------------------------------------------------------------------------------- */
 	/* Target DOM elements
@@ -788,7 +979,10 @@
 	// Search button
 	const dom_field_button = dom_field?.querySelector('.searchButton');
 
-	// Suggestions
+
+	/* Suggestions
+	------------------------- */
+	// Suggestions container
 	const dom_suggestions = dom_search?.querySelector('.suggestions');
 
 

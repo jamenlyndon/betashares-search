@@ -17,7 +17,10 @@
 /* Search results
 ---------------------------------------------------------------------------------------------------- */
 .search .results {
+	display: flex;
 	flex-basis: 100%;
+	flex-wrap: wrap;
+	gap: v.$gap_6;
 	padding-top: v.$gap_4;
 	padding-right: v.$gap_2;
 	padding-bottom: v.$gap_4;
@@ -29,8 +32,14 @@
 	/* Responsive
 	-------------------------------------------------- */
 	@media (max-width: v.$breakpoint_l) {
+		gap: v.$gap_4;
 		padding-top: v.$gap_3;
 		padding-bottom: v.$gap_3;
+	}
+
+	@media (max-width: v.$breakpoint_s) {
+		padding-right: v.$gap_1;
+		padding-left: v.$gap_1;
 	}
 
 
@@ -204,7 +213,8 @@
 						.icon {
 							@include i.icon($style: 'thick', $size: 'm', $color: 'black');
 							position: relative;
-							top: 0;
+							// Minor alignment fix
+							top: 1px;
 							transform: rotate(0deg);
 							transition: transform v.$transition_fast linear;
 						}
@@ -439,8 +449,9 @@
 	/* Skeleton loading
 	---------------------------------------------------------------------------------------------------- */
 	.skeletonLoading {
+		// display: block !important;
 		border-collapse: collapse;
-		width: 100%;
+		flex-basis: 100%;
 
 
 		/* Box style
@@ -489,8 +500,10 @@
 		thead {
 			tr {
 				th {
+					padding-top: v.$gap_0_5;
 					padding-right: v.$gap_3;
 					padding-bottom: v.$gap_3;
+					padding-left: v.$gap_1_5;
 
 					// Set the header box size
 					.box {
@@ -514,9 +527,10 @@
 		tbody {
 			tr {
 				td {
-					padding-top: v.$gap_1;
+					padding-top: v.$gap_1_5;
 					padding-right: v.$gap_3;
 					padding-bottom: v.$gap_1;
+					padding-left: v.$gap_1_5;
 
 					// Set the body box size
 					.box {
@@ -530,6 +544,29 @@
 
 		/* Responsive
 		-------------------------------------------------- */
+		@media (max-width: v.$breakpoint_l) {
+			// Headers
+			thead {
+				tr {
+					th {
+						padding-right: v.$gap_1;
+						padding-bottom: v.$gap_2;
+						padding-left: v.$gap_1;
+					}
+				}
+			}
+
+			// Body
+			tbody {
+				tr {
+					td {
+						padding-right: v.$gap_1;
+						padding-left: v.$gap_1;
+					}
+				}
+			}
+		}
+
 		@media (max-width: v.$breakpoint_s) {
 			// Headers
 			thead {
@@ -547,6 +584,10 @@
 					td {
 						padding-right: v.$gap_0_5;
 						padding-left: v.$gap_0_5;
+
+						.box {
+							height: v.$gap_4_5;
+						}
 					}
 				}
 			}
