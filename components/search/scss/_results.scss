@@ -28,6 +28,9 @@
 	background: v.$color_white;
 	border-radius: v.$border_radius_s;
 
+	// We scroll to this element with Javascript, so let's define a top offset
+	scroll-margin-top: v.$gap_2;
+
 
 	/* Responsive
 	-------------------------------------------------- */
@@ -633,6 +636,9 @@
 	/* Pagination
 	---------------------------------------------------------------------------------------------------- */
 	.pagination {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		width: 100%;
 
 
@@ -642,10 +648,8 @@
 			display: flex;
 			flex-wrap: nowrap;
 			gap: v.$gap_3;
-			justify-content: center;
-			width: 100%;
+			max-width: 660px;
 			margin-bottom: v.$gap_3;
-
 
 			/* All buttons
 			------------------------- */
@@ -655,7 +659,9 @@
 				align-items: center;
 				justify-content: center;
 				width: v.$gap_4;
+				min-width: v.$gap_4;
 				height: v.$gap_4;
+				min-height: v.$gap_4;
 				background: v.$color_white;
 				border: 1px solid v.$color_grey_light_2;
 				border-radius: 999px;
@@ -714,7 +720,10 @@
 			------------------------- */
 			.pages {
 				display: inline-flex;
-				gap: v.$gap_0_5;
+				flex-wrap: wrap;
+				row-gap: v.$gap_1;
+				column-gap: v.$gap_0_5;
+				justify-content: center;
 
 				.page {
 					.text {
@@ -772,7 +781,7 @@
 			}
 		}
 
-		@media (max-width: v.$breakpoint_s) {
+		@media (max-width: v.$breakpoint_m) {
 			// Buttons
 			.buttons {
 				// Page buttons

@@ -189,9 +189,15 @@
 						// Manual text alignment
 						padding-top: 14px;
 
-						// Don't manually align in firefox
+						// Firefox fixes
 						@-moz-document url-prefix() {
+							// Don't manually align the text
 							padding-top: 0;
+
+							// Fix a strange text selection issue
+							&::selection {
+								background: transparent;
+							}
 						}
 
 						padding-right: v.$gap_4_5;

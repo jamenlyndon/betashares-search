@@ -16,10 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	// If we found the <div> element
 	if (searchComponentDiv) {
-		// Load the search component's HTML
+		// Load the search component HTML
 		searchComponentDiv.innerHTML = component_search_html();
 
-		// Init the search component's JS
+		// Init the search component JS
 		component_search_init();
 	}
 });

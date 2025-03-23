@@ -26,7 +26,7 @@ function helper_ucFirst(str) {
 
 
 
-/* Export
+/* Exports
 ---------------------------------------------------------------------------------------------------- */
 export {
 	helper_addClass,

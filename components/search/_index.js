@@ -9,10 +9,8 @@ import {
 
 
 
-/* Search component
----------------------------------------------------------------------------------------------------- */
 /* HTML
--------------------------------------------------- */
+---------------------------------------------------------------------------------------------------- */
 function component_search_html() {
 	return (`
 		<div class='search'>
@@ -244,49 +242,7 @@ function component_search_html() {
 				<!-- Pagination
 				========================= -->
 				<div class='pagination hidden'>
-					<div class='buttons'>
-						<button class='prev disabled'>
-							<div class='icon'>keyboard_arrow_left</div>
-						</button> <!-- .prev -->
-
-						<div class='pages'>
-							<button class='page selected'>
-								<div class='text'>1</div>
-							</button>
-							<button class='page'>
-								<div class='text'>2</div>
-							</button>
-							<button class='page'>
-								<div class='text'>3</div>
-							</button>
-							<button class='page'>
-								<div class='text'>4</div>
-							</button>
-							<button class='page'>
-								<div class='text'>5</div>
-							</button>
-							<button class='page'>
-								<div class='text'>6</div>
-							</button>
-							<button class='page'>
-								<div class='text'>7</div>
-							</button>
-							<button class='page ellipsis'>
-								<div class='text'>...</div>
-							</button>
-							<button class='page'>
-								<div class='text'>10</div>
-							</button>
-						</div> <!-- .pages -->
-
-						<button class='next'>
-							<div class='icon'>keyboard_arrow_right</div>
-						</button> <!-- .next -->
-					</div> <!-- .buttons -->
-
-					<div class='resultsText'>
-						Showing results 1 - 10 of 100
-					</div> <!-- .resultsText -->
+					<!-- This is populated dynamically with JS -->
 				</div> <!-- .pagination -->
 
 
@@ -304,8 +260,9 @@ function component_search_html() {
 }
 
 
-/* JS
--------------------------------------------------- */
+
+/* Init / JS
+---------------------------------------------------------------------------------------------------- */
 function component_search_init() {
 	/* Search API
 	---------------------------------------------------------------------------------------------------- */
@@ -937,7 +894,7 @@ function component_search_init() {
 
 	/* Populate search results
 	-------------------------------------------------- */
-	function results_populate() {
+	function results_populate(scrollToResults = false) {
 		// Get the search text
 		const searchText = dom_field_input?.value;
 
@@ -962,9 +919,9 @@ function component_search_init() {
 		// Get the sorting
 		let sort = '';
 		if (results_sort_name && results_sort_order) {
+			// If we're sorting by an alphabetial field, let's reverse the sort order
+			// This is more intuitive - as "descending" should infer "A -> Z" but the API returns the opposite
 			let sortOrder = results_sort_order;
-
-			// If we're sorting by an alphabetial field, let's reverse the sort order (this is more intuitive - as "descending" should infer "A -> Z")
 			if (results_sort_name === 'symbol' || results_sort_name === 'display_name' || results_sort_name === 'kind') {
 				if (results_sort_order === 'desc') {
 					sortOrder = 'asc';
@@ -980,6 +937,8 @@ function component_search_init() {
 
 		// Build the query params
 		const params = {
+			'from': pagination_page,
+			'size': 10,
 			'order_by': sort,
 			'search_text': searchText ? searchText : '',
 			'fund_size': {
@@ -1009,7 +968,7 @@ function component_search_init() {
 			params,
 			(data) => {
 				// If we got no data back
-				if (typeof data !== 'object' || typeof data.results !== 'object' || data.results.length === 0) {
+				if (typeof data !== 'object' || typeof data.results !== 'object' || typeof data.count !== 'number' || data.results.length === 0) {
 					// Hide results loading, table, pagination
 					helper_addClass('hidden', dom_results_loading);
 					helper_addClass('hidden', dom_results_table);
@@ -1148,10 +1107,22 @@ function component_search_init() {
 					helper_addClass('hidden', dom_results_loading);
 					helper_addClass('hidden', dom_results_noResults);
 
-					// Show the results table, pagination
+					// Show the results table
 					helper_removeClass('hidden', dom_results_table);
-					helper_removeClass('hidden', dom_results_pagination);
 
+					// If there's more than 10 results
+					if (data.count > 10) {
+						// Populate the pagination
+						pagination_populate(pagination_page, data.count);
+
+						// Show pagination
+						helper_removeClass('hidden', dom_results_pagination);
+					}
+					// Otherwise, there's less than 10 results
+					else {
+						// Hide pagination
+						helper_addClass('hidden', dom_results_pagination);
+					}
 
 					// Attach event listeners to the results
 					const results = dom_results_table?.querySelectorAll('.result');
@@ -1168,6 +1139,13 @@ function component_search_init() {
 							expandCollapseButton.addEventListener('click', results_expandCollapseButton_handleClick);
 						}
 					});
+
+					// Scroll to the search results if required
+					if (scrollToResults) {
+						// This is a great modern feature of JS (with baseline browser support)
+						// More info here: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
+						dom_results.scrollIntoView();
+					}
 				}
 			}
 		);
@@ -1176,7 +1154,7 @@ function component_search_init() {
 
 	/* Show search results
 	-------------------------------------------------- */
-	function results_show(keepFiltersAndSorting = false) {
+	function results_show(keepFiltersAndSorting = false, keepPagination = false) {
 		// Hide the suggestions
 		suggestions_hide();
 
@@ -1211,6 +1189,12 @@ function component_search_init() {
 			helper_addClass('hidden', dom_filters_popup);
 		}
 
+		// If we're not keeping the pagination
+		if (!keepPagination) {
+			// Reset the pagination to the first page
+			pagination_page = 1;
+		}
+
 		// Hide results table, pagination, no results message
 		helper_addClass('hidden', dom_results_table);
 		helper_addClass('hidden', dom_results_pagination);
@@ -1221,7 +1205,7 @@ function component_search_init() {
 		helper_removeClass('hidden', dom_results);
 
 		// Populate the results
-		results_populate();
+		results_populate(keepPagination);
 	}
 
 
@@ -1362,6 +1346,179 @@ function component_search_init() {
 
 
 
+	/* Pagination
+	---------------------------------------------------------------------------------------------------- */
+	/* Populate pagination
+	-------------------------------------------------- */
+	// Create a shared variable to store the current page
+	let pagination_page = 1;
+	function pagination_populate(currentPage, totalResults) {
+		/* Update the shared variable to the current page passed in
+		------------------------- */
+		pagination_page = currentPage;
+
+
+		/* Create the pages HTML output
+		------------------------- */
+		// Work out how many pages there are in total
+		const totalPages = Math.ceil(totalResults / 10);
+
+		// Create the HTML output variable
+		let pagesOutput = '';
+
+		// For each page
+		for (let i = 0; i < totalPages; i++) {
+			// Add a selected class to the current page
+			let selectedClass = '';
+			if (i === (currentPage - 1)) {
+				selectedClass = ' selected';
+			}
+
+			// Output the page HTML
+			pagesOutput += `
+				<button class='page${selectedClass}' data-page='${(i + 1)}'>
+					<div class='text'>${(i + 1)}</div>
+				</button>
+			`;
+		}
+
+
+		/* Create the results text HTML output
+		------------------------- */
+		// Results from
+		let resultsTextStart = ((currentPage * 10) - (10 - 1));
+		if (resultsTextStart < 0) {
+			resultsTextStart = 0;
+		}
+
+		// Results to
+		let resultsTextEnd = (currentPage * 10);
+		if (resultsTextEnd > totalResults) {
+			resultsTextEnd = totalResults;
+		}
+
+		// Output the results text HTML
+		const resultsTextOutput = `Showing results ${resultsTextStart} - ${resultsTextEnd} of ${totalResults}`;
+
+
+		/* Create the previous button HTML
+		------------------------- */
+		// Is this button disable (we're on the first page already)
+		let prevDisabledClass = '';
+		if (currentPage === 1) {
+			prevDisabledClass = ' disabled';
+		}
+
+		// Output the previous button HTML
+		const prevButtonOutput = `
+			<button class='prev${prevDisabledClass}'>
+				<div class='icon'>keyboard_arrow_left</div>
+			</button> <!-- .prev -->
+		`;
+
+
+		/* Create the previous button HTML
+		------------------------- */
+		// Is this button disable (we're on the first page already)
+		let nextDisabledClass = '';
+		if (currentPage === totalPages) {
+			nextDisabledClass = ' disabled';
+		}
+
+		// Output the next button HTML
+		const nextButtonOutput = `
+			<button class='next${nextDisabledClass}'>
+				<div class='icon'>keyboard_arrow_right</div>
+			</button> <!-- .prev -->
+		`;
+
+
+		/* Create the pagination HTML output
+		------------------------- */
+		const htmlOutput = `
+			<div class='buttons'>
+				${prevButtonOutput}
+
+				<div class='pages'>
+					${pagesOutput}
+				</div> <!-- .pages -->
+
+				${nextButtonOutput}
+			</div> <!-- .buttons -->
+
+			<div class='resultsText'>
+				${resultsTextOutput}
+			</div> <!-- .resultsText -->
+		`;
+
+
+		/* Populate the pagination's HTML
+		------------------------- */
+		dom_results_pagination.innerHTML = htmlOutput;
+
+
+		/* Attach event listeners
+		------------------------- */
+		// Previous button
+		const prevButton = dom_results_pagination.querySelector('.prev');
+		if (prevButton) {
+			prevButton.addEventListener('click', pagination_prevPage);
+		}
+
+		// Next button
+		const nextButton = dom_results_pagination.querySelector('.next');
+		if (nextButton) {
+			nextButton.addEventListener('click', pagination_nextPage);
+		}
+
+		// Page buttons
+		const pageButtons = dom_results_pagination.querySelectorAll('.page');
+		pageButtons.forEach((pageButton) => {
+			pageButton.addEventListener('click', pagination_changePage);
+		});
+	}
+
+
+	/* Change page
+	-------------------------------------------------- */
+	function pagination_changePage(event) {
+		// Get the "data-page" attribute of the clicked page
+		const page = event.target?.closest('.page')?.getAttribute('data-page');
+
+		// If we found the "data-page" attribute
+		if (page) {
+			// Update the current page
+			pagination_page = parseInt(page);
+
+			// Reload the results (keep filters/sorting and pagination)
+			results_show(true, true);
+		}
+	}
+
+
+	/* Next page
+	-------------------------------------------------- */
+	function pagination_nextPage() {
+		// Update the current page
+		pagination_page++;
+
+		// Reload the results (keep filters/sorting and pagination)
+		results_show(true, true);
+	}
+
+
+	/* Previous page
+	-------------------------------------------------- */
+	function pagination_prevPage() {
+		// Update the current page
+		pagination_page--;
+
+		// Reload the results (keep filters/sorting and pagination)
+		results_show(true, true);
+	}
+
+
+
 	/* Setup
 	---------------------------------------------------------------------------------------------------- */
 	/* Target DOM elements
@@ -1443,7 +1600,7 @@ function component_search_init() {
 
 
 
-/* Export
+/* Exports
 ---------------------------------------------------------------------------------------------------- */
 export {
 	component_search_html,
