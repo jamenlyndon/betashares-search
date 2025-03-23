@@ -90,7 +90,7 @@ function component_search_html() {
 						<div class='fields'>
 							<div class='selectContainer'>
 								<select name='fundCategory'>
-									<option value='' selected>All categories</option>
+									<option value='' selected>Any</option>
 									<option>Australian Equities</option>
 									<option>Cash</option>
 									<option>Australian Bonds</option>
@@ -116,14 +116,30 @@ function component_search_html() {
 					<div class='filter'>
 						<div class='label'>Investment suitability</div>
 						<div class='fields'>
-							<input type='text' placeholder='Enter keywords' name='investmentSuitability'>
+							<div class='selectContainer'>
+								<select name='investmentSuitability'>
+									<option value='' selected>Any</option>
+									<option>Capital growth and regular income</option>
+									<option>Regular income</option>
+									<option>Capital growth</option>
+									<option>Income distribution</option>
+								</select>
+								<div class='icon'>keyboard_arrow_down</div>
+							</div> <!-- .selectContainer -->
 						</div> <!-- .fields -->
 					</div> <!-- .filter -->
 
 					<div class='filter'>
 						<div class='label'>Management approach</div>
 						<div class='fields'>
-							<input type='text' placeholder='Enter keywords' name='managementApproach'>
+							<div class='selectContainer'>
+								<select name='managementApproach'>
+									<option value='' selected>Any</option>
+									<option>Passive</option>
+									<option>Active</option>
+								</select>
+								<div class='icon'>keyboard_arrow_down</div>
+							</div> <!-- .selectContainer -->
 						</div> <!-- .fields -->
 					</div> <!-- .filter -->
 
@@ -132,10 +148,11 @@ function component_search_html() {
 						<div class='fields'>
 							<div class='selectContainer'>
 								<select name='dividendFrequency'>
-									<option value='' selected>All frequencies</option>
-									<option value='annual'>Annual</option>
-									<option value='quarterly'>Quarterly</option>
-									<option value='monthly'>Monthly</option>
+									<option value='' selected>Any</option>
+									<option>Annually</option>
+									<option>Semiannually</option>
+									<option>Quarterly</option>
+									<option>Monthly</option>
 								</select>
 
 								<div class='icon'>keyboard_arrow_down</div>
@@ -912,8 +929,8 @@ function component_search_init() {
 		const fiveYearReturn_max = dom_filters_form?.querySelector('input[name="fiveYearReturn_max"]').value;
 
 		const fundCategory = dom_filters_form?.querySelector('select[name="fundCategory"]').value;
-		const investmentSuitability = dom_filters_form?.querySelector('input[name="investmentSuitability"]').value;
-		const managementApproach = dom_filters_form?.querySelector('input[name="managementApproach"]').value;
+		const investmentSuitability = dom_filters_form?.querySelector('select[name="investmentSuitability"]').value;
+		const managementApproach = dom_filters_form?.querySelector('select[name="managementApproach"]').value;
 		const dividendFrequency = dom_filters_form?.querySelector('select[name="dividendFrequency"]').value;
 
 		// Get the sorting
