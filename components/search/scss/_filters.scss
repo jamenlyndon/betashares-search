@@ -18,7 +18,7 @@
 ---------------------------------------------------------------------------------------------------- */
 /* Filter button
 -------------------------------------------------- */
-.search .filterButton {
+.search .filtersButton {
 	@include m.reset;
 	display: flex;
 	gap: v.$gap_1;
@@ -51,9 +51,9 @@
 }
 
 
-/* Filters
+/* Filters popup
 -------------------------------------------------- */
-.search .filters {
+.search .filtersPopup {
 	display: flex;
 	flex-basis: 100%;
 	flex-wrap: wrap;

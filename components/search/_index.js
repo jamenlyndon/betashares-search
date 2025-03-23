@@ -1,32 +1,312 @@
-(function () {
-	/* Helper functions
-	---------------------------------------------------------------------------------------------------- */
-	/* Add a class
-	-------------------------------------------------- */
-	function helper_addClass(className, element) {
-		if (!element?.classList.contains(className)) {
-			element?.classList.add(className);
-		}
-	}
-
-
-	/* Remove a class
-	-------------------------------------------------- */
-	function helper_removeClass(className, element) {
-		if (element?.classList.contains(className)) {
-			element?.classList.remove(className);
-		}
-	}
-
-
-	/* Make the first letter uppercase
-	-------------------------------------------------- */
-	function helper_ucFirst(str) {
-		return str && String(str[0]).toUpperCase() + String(str).slice(1);
-	}
+/* Imports
+---------------------------------------------------------------------------------------------------- */
+// Helper functions
+import {
+	helper_addClass,
+	helper_removeClass,
+	helper_ucFirst
+} from '../../js/partials/_helpers.js';
 
 
 
+/* Search component
+---------------------------------------------------------------------------------------------------- */
+/* HTML
+-------------------------------------------------- */
+function component_search_html() {
+	return (`
+		<div class='search'>
+
+
+			<!-- Field
+			================================================== -->
+			<div class='field'>
+				<!-- Search field
+				================================================== -->
+				<div class='searchField'>
+					<div class='icon'>search</div>
+					<input type='text' placeholder='Search our funds'>
+					<button class='searchButton'>
+						<div class='icon'>search</div>
+					</button> <!-- .searchButton -->
+				</div> <!-- .searchField -->
+
+				<!-- Suggestions
+				================================================== -->
+				<div class='suggestions hidden'>
+					<!-- This is populated dynamically with JS -->
+				</div> <!-- .suggestions -->
+			</div> <!-- .field -->
+
+
+			<!-- Filters
+			================================================== -->
+			<button class='filtersButton hidden'>
+				<div class='icon'>tune</div>
+				<div class='text'>Filter results<span class='activeFilters'></span></div>
+			</button> <!-- .filtersButton -->
+
+			<div class='filtersPopup hidden'>
+				<div class='top'>
+					<div class='title'>Filter results</div>
+					<button class='closeButton'>
+						<div class='icon'>close</div>
+					</button> <!-- .closeButton -->
+				</div> <!-- .top -->
+
+				<form>
+					<div class='filter'>
+						<div class='label'>Fund size</div>
+						<div class='fields'>
+							<input type='number' placeholder='Min' name='fundSize_min' data-min='0'>
+							<input type='number' placeholder='Max' name='fundSize_max' data-min='0'>
+						</div> <!-- .fields -->
+					</div> <!-- .filter -->
+
+					<div class='filter'>
+						<div class='label'>Management fee (%)</div>
+						<div class='fields'>
+							<input type='number' placeholder='Min' step='0.01' name='managementFee_min' data-min='0' data-max='100'>
+							<input type='number' placeholder='Max' step='0.01' name='managementFee_max' data-min='0' data-max='100'>
+						</div> <!-- .fields -->
+					</div> <!-- .filter -->
+
+					<div class='filter'>
+						<div class='label'>1 year return (%)</div>
+						<div class='fields'>
+							<input type='number' placeholder='Min' name='oneYearReturn_min'>
+							<input type='number' placeholder='Max' name='oneYearReturn_max'>
+						</div> <!-- .fields -->
+					</div> <!-- .filter -->
+
+					<div class='filter'>
+						<div class='label'>Five year return (%)</div>
+						<div class='fields'>
+							<input type='number' placeholder='Min' name='fiveYearReturn_min'>
+							<input type='number' placeholder='Max' name='fiveYearReturn_max'>
+						</div> <!-- .fields -->
+					</div> <!-- .filter -->
+
+					<div class='filter'>
+						<div class='label'>Fund category</div>
+						<div class='fields'>
+							<div class='selectContainer'>
+								<select name='fundCategory'>
+									<option value='' selected>All categories</option>
+									<option>Australian Equities</option>
+									<option>Cash</option>
+									<option>Australian Bonds</option>
+									<option>Technology</option>
+									<option>Thematic</option>
+									<option>Shorts Funds & Geared Funds</option>
+									<option>International Bonds</option>
+									<option>International Equities</option>
+									<option>Diversified</option>
+									<option>International Equities - Emerging Markets</option>
+									<option>International - Countries & Regions</option>
+									<option>International Equities - Asia</option>
+									<option>Gold & Commodities</option>
+									<option>International Equities - US</option>
+									<option>Currency</option>
+									<option>Property & Infrastructure</option>
+								</select>
+								<div class='icon'>keyboard_arrow_down</div>
+							</div> <!-- .selectContainer -->
+						</div> <!-- .fields -->
+					</div> <!-- .filter -->
+
+					<div class='filter'>
+						<div class='label'>Investment suitability</div>
+						<div class='fields'>
+							<input type='text' placeholder='Enter keywords' name='investmentSuitability'>
+						</div> <!-- .fields -->
+					</div> <!-- .filter -->
+
+					<div class='filter'>
+						<div class='label'>Management approach</div>
+						<div class='fields'>
+							<input type='text' placeholder='Enter keywords' name='managementApproach'>
+						</div> <!-- .fields -->
+					</div> <!-- .filter -->
+
+					<div class='filter'>
+						<div class='label'>Dividend frequency</div>
+						<div class='fields'>
+							<div class='selectContainer'>
+								<select name='dividendFrequency'>
+									<option value='' selected>All frequencies</option>
+									<option value='annual'>Annual</option>
+									<option value='quarterly'>Quarterly</option>
+									<option value='monthly'>Monthly</option>
+								</select>
+
+								<div class='icon'>keyboard_arrow_down</div>
+							</div> <!-- .selectContainer -->
+						</div> <!-- .fields -->
+					</div> <!-- .filter -->
+				</form>
+
+				<button class='clearFiltersButton'>
+					<div class='text'>Clear all filters</div>
+				</button>
+			</div> <!-- .filters -->
+
+
+			<!-- Results
+			================================================== -->
+			<div class='results hidden'>
+				<!-- Results table
+				========================= -->
+				<table class='resultsTable hidden'>
+					<thead>
+						<tr>
+							<th></th>
+							<th data-sort='symbol'>
+								<div class='headerContainer'>
+									<div class='text'>Code</div>
+									<div class='icon'>keyboard_arrow_down</div>
+								</div> <!-- .headerContainer -->
+							</th>
+							<th data-sort='display_name'>
+								<div class='headerContainer'>
+									<div class='text'>Fund name</div>
+									<div class='icon'>keyboard_arrow_down</div>
+								</div> <!-- .headerContainer -->
+							</th>
+							<th class='hide_l' data-sort='kind'>
+								<div class='headerContainer'>
+									<div class='text'>Type</div>
+									<div class='icon'>keyboard_arrow_down</div>
+								</div> <!-- .headerContainer -->
+							</th>
+							<th class='hide_l' data-sort='fund_size'>
+								<div class='headerContainer'>
+									<div class='text'>Fund size</div>
+									<div class='icon'>keyboard_arrow_down</div>
+								</div> <!-- .headerContainer -->
+							</th>
+							<th class='hide_s' data-sort='one_year_return'>
+								<div class='headerContainer'>
+									<div class='text'>1 year<span class='hide_m'> return</span></div>
+									<div class='icon'>keyboard_arrow_down</div>
+								</div> <!-- .headerContainer -->
+							</th>
+							<th class='hide_s' data-sort='five_year_return'>
+								<div class='headerContainer'>
+									<div class='text'>5 year<span class='hide_m'> return</span></div>
+									<div class='icon'>keyboard_arrow_down</div>
+								</div> <!-- .headerContainer -->
+							</th>
+							<th class='hide_s' data-sort='management_fee'>
+								<div class='headerContainer'>
+									<div class='text'>Cost p/a</div>
+									<div class='icon'>keyboard_arrow_down</div>
+								</div> <!-- .headerContainer -->
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- This is populated dynamically with JS -->
+					</tbody>
+				</table> <!-- .resultsTable -->
+
+
+				<!-- Skeleton loading
+				========================= -->
+				<table class='skeletonLoading hidden'>
+					<thead>
+						<tr>
+							<th><div class='box'></div></th>
+							<th><div class='box'></div></th>
+							<th colspan='6'><div class='box'></div></td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><div class='box'></div></td>
+							<td><div class='box'></div></td>
+							<td colspan='6'><div class='box'></div></td>
+						</tr>
+						<tr>
+							<td><div class='box'></div></td>
+							<td><div class='box'></div></td>
+							<td colspan='6'><div class='box'></div></td>
+						</tr>
+						<tr>
+							<td><div class='box'></div></td>
+							<td><div class='box'></div></td>
+							<td colspan='6'><div class='box'></div></td>
+						</tr>
+					</tbody>
+				</table> <!-- .skeletonLoading -->
+
+
+				<!-- Pagination
+				========================= -->
+				<div class='pagination hidden'>
+					<div class='buttons'>
+						<button class='prev disabled'>
+							<div class='icon'>keyboard_arrow_left</div>
+						</button> <!-- .prev -->
+
+						<div class='pages'>
+							<button class='page selected'>
+								<div class='text'>1</div>
+							</button>
+							<button class='page'>
+								<div class='text'>2</div>
+							</button>
+							<button class='page'>
+								<div class='text'>3</div>
+							</button>
+							<button class='page'>
+								<div class='text'>4</div>
+							</button>
+							<button class='page'>
+								<div class='text'>5</div>
+							</button>
+							<button class='page'>
+								<div class='text'>6</div>
+							</button>
+							<button class='page'>
+								<div class='text'>7</div>
+							</button>
+							<button class='page ellipsis'>
+								<div class='text'>...</div>
+							</button>
+							<button class='page'>
+								<div class='text'>10</div>
+							</button>
+						</div> <!-- .pages -->
+
+						<button class='next'>
+							<div class='icon'>keyboard_arrow_right</div>
+						</button> <!-- .next -->
+					</div> <!-- .buttons -->
+
+					<div class='resultsText'>
+						Showing results 1 - 10 of 100
+					</div> <!-- .resultsText -->
+				</div> <!-- .pagination -->
+
+
+				<!-- No results
+				========================= -->
+				<div class='noResults hidden'>
+					<div class='title'>Sorry, we could not find any results.</div>
+					<div class='text'>Try searching for something else<span class='clearFilters hidden'>, <a href='javascript:;'>clear all filters</a></span> or <a href='https://www.betashares.com.au/fund/'>view all funds</a>.</div>
+				</div> <!-- .noResults -->
+			</div> <!-- .results -->
+
+
+		</div> <!-- .search -->
+	`);
+}
+
+
+/* JS
+-------------------------------------------------- */
+function component_search_init() {
 	/* Search API
 	---------------------------------------------------------------------------------------------------- */
 	/* Setup shared search variables
@@ -498,7 +778,7 @@
 					// Update the active filters count
 					filters_button_updateActiveFiltersCount();
 
-					// Reload the results (keep filters)
+					// Reload the results (keep filters and sorting)
 					results_show(true);
 				});
 			});
@@ -633,7 +913,7 @@
 		// Update the active filters count
 		filters_button_updateActiveFiltersCount();
 
-		// Reload the results (keep filters)
+		// Reload the results (keep filters and sorting)
 		results_show(true);
 	}
 
@@ -641,6 +921,20 @@
 
 	/* Results
 	---------------------------------------------------------------------------------------------------- */
+	/* Init
+	-------------------------------------------------- */
+	function results_init() {
+		// Get the table headers
+		const tableHeaders = dom_results?.querySelectorAll('thead th');
+
+		// For each table header
+		tableHeaders.forEach((tableHeader) => {
+			// Add a click event listener (this enables sorting)
+			tableHeader.addEventListener('click', results_tableHeader_handleClick);
+		});
+	}
+
+
 	/* Populate search results
 	-------------------------------------------------- */
 	function results_populate() {
@@ -665,8 +959,15 @@
 		const managementApproach = dom_filters_form?.querySelector('input[name="managementApproach"]').value;
 		const dividendFrequency = dom_filters_form?.querySelector('select[name="dividendFrequency"]').value;
 
+		// Get the sorting
+		let sort = '';
+		if (results_sort_name && results_sort_order) {
+			sort = results_sort_name + '.' + results_sort_order;
+		}
+
 		// Build the query params
 		const params = {
+			'order_by': sort,
 			'search_text': searchText ? searchText : '',
 			'fund_size': {
 				'min': fundSize_min ? fundSize_min : null,
@@ -713,7 +1014,7 @@
 					// For each result
 					data.results.forEach((result) => {
 						// Format the data
-						const data_code = result.symbol ? result.symbol.toUpperCase() : '-';
+						const data_fundCode = result.symbol ? result.symbol.toUpperCase() : '-';
 						const data_fundName = result.display_name ? helper_ucFirst(result.display_name) : '-';
 						let data_type = result.kind ? helper_ucFirst(result.kind) : '-';
 						if (data_type === 'Etf') {
@@ -739,7 +1040,7 @@
 								</td>
 								<td>
 									<div class='fundCode'>
-										<div class='text'>${data_code}</div>
+										<div class='text'>${data_fundCode}</div>
 									</div> <!-- .fundCode -->
 								</td>
 								<td>
@@ -812,6 +1113,10 @@
 											<div class='text'>${data_dividendFrequency}</div>
 										</div> <!-- .info -->
 									</div> <!-- .infoContainer -->
+
+									<a href='https://www.betashares.com.au/direct/get/?symbol=${data_fundCode}' class='investButton'>
+										<div class='text'>Invest with us</div>
+									</a>
 								</td>
 							</tr> <!-- .expandCollapseContent -->
 						`;
@@ -838,8 +1143,17 @@
 					// Attach event listeners to the results
 					const results = dom_results_table?.querySelectorAll('.result');
 					results.forEach((result) => {
-						// Click
-						result.addEventListener('click', results_handleClick);
+						// Result - click
+						result.addEventListener('click', results_result_handleClick);
+
+						// Target the expand / collapse button
+						const expandCollapseButton = result.querySelector('.expandCollapseButton');
+
+						// If we found the expand / collapse button
+						if (expandCollapseButton) {
+							// Expand / collapse button - click
+							expandCollapseButton.addEventListener('click', results_expandCollapseButton_handleClick);
+						}
 					});
 				}
 			}
@@ -849,7 +1163,7 @@
 
 	/* Show search results
 	-------------------------------------------------- */
-	function results_show(keepFilters = false) {
+	function results_show(keepFiltersAndSorting = false) {
 		// Hide the suggestions
 		suggestions_hide();
 
@@ -869,8 +1183,12 @@
 		// Show the filter button
 		helper_removeClass('hidden', dom_filters_button);
 
-		// If we're not keeping the filters
-		if (!keepFilters) {
+		// If we're not keeping the filters and sorting
+		if (!keepFiltersAndSorting) {
+			// Reset the sorting
+			results_sort_name = '';
+			results_sort_order = '';
+
 			// Reset the filters form
 			dom_filters_form.reset();
 
@@ -907,14 +1225,75 @@
 		// Hide the filter button
 		helper_addClass('hidden', dom_filters_button);
 
-		// Hide the filters form
+		// Hide the filters popup
 		helper_addClass('hidden', dom_filters_popup);
 	}
 
 
-	/* Handle click
+	/* Table headers - handle click
 	-------------------------------------------------- */
-	function results_handleClick(event) {
+	// Create variables to store the sorting
+	let results_sort_name = '';
+	let results_sort_order = '';
+	function results_tableHeader_handleClick(event) {
+		// Target the table header
+		const tableHeader = event.target.closest('th');
+
+		// If we found the table header
+		if (tableHeader) {
+			// If we're already sorted descending
+			if (tableHeader.classList.contains('desc')) {
+				// Sort ascending
+				tableHeader.classList.remove('desc');
+				tableHeader.classList.add('asc');
+
+				// Update the sort variables
+				results_sort_name = tableHeader.getAttribute('data-sort');
+				results_sort_order = 'asc';
+			}
+			// Otherwise, we're not sorted descending
+			else {
+				// Remove any other sorted headers
+				dom_results_table?.querySelector('.sort')?.classList.remove('sort');
+				dom_results_table?.querySelector('.asc')?.classList.remove('asc');
+				dom_results_table?.querySelector('.desc')?.classList.remove('desc');
+
+				// Sort descending
+				tableHeader.classList.add('sort');
+				tableHeader.classList.add('desc');
+
+				// Update the sort variables
+				results_sort_name = tableHeader.getAttribute('data-sort');
+				results_sort_order = 'desc';
+			}
+
+			// Reload the results (keep filters and sorting)
+			results_show(true);
+		}
+	}
+
+
+	/* Result - handle click
+	-------------------------------------------------- */
+	function results_result_handleClick(event) {
+		// Get the fund code
+		const fundCode = event.target.closest('.result')?.querySelector('.fundCode .text')?.textContent;
+
+		// If we found the fund code
+		if (fundCode) {
+			// Open the Betashares invest page
+			window.location.href = 'https://www.betashares.com.au/direct/get/?symbol=' + fundCode;
+		}
+	}
+
+
+	/* Expand / collapse button - handle click
+	-------------------------------------------------- */
+	function results_expandCollapseButton_handleClick(event) {
+		// Stop the event from hitting the parent result
+		event.preventDefault();
+		event.stopPropagation();
+
 		// Target the result container
 		const result = event.target.closest('.result');
 
@@ -989,10 +1368,10 @@
 	/* Filters
 	------------------------- */
 	// Filter results button
-	const dom_filters_button = dom_search?.querySelector('.filterButton');
+	const dom_filters_button = dom_search?.querySelector('.filtersButton');
 
-	// Popup container
-	const dom_filters_popup = dom_search?.querySelector('.filters');
+	// Popup
+	const dom_filters_popup = dom_search?.querySelector('.filtersPopup');
 
 	// Close button
 	const dom_filters_closeButton = dom_filters_popup?.querySelector('.closeButton');
@@ -1033,4 +1412,16 @@
 
 	// Filters
 	filters_init();
-})();
+
+	// Results
+	results_init();
+}
+
+
+
+/* Export
+---------------------------------------------------------------------------------------------------- */
+export {
+	component_search_html,
+	component_search_init
+};
