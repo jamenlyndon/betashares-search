@@ -71,9 +71,9 @@ However, as this was created without a supporting design system, I simply develo
 
 ## Installation
 ### Requirements
-1. Install [Git](https://git-scm.com/).
+1. Install [Git](https://git-scm.com/)
 2. Install [Node.js](https://nodejs.org/en)
-3. Install [npm](npmjs.com).
+3. Install [npm](npmjs.com)
 
 
 ### Setup instructions
