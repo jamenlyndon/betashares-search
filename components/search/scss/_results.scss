@@ -169,6 +169,12 @@
 			------------------------- */
 			tr:not(.expandCollapseContent) {
 				position: relative;
+				/*
+					Safari doesn't support 'position: relative' on '<tr>' elements, but these two properties can be used as an alternative.
+					Source: https://mtsknn.fi/blog/relative-tr-in-safari/
+				*/
+				transform: translate(0);
+				clip-path: inset(0);
 
 				// Result button - links to the invest page
 				.resultButton {
@@ -497,7 +503,7 @@
 		.box {
 			background: linear-gradient(120deg, v.$color_grey_light_4 40%, lighten(v.$color_grey_light_4, 1.5%), v.$color_grey_light_4 60%) right / 300% 100%;
 			border-radius: 999px;
-  		animation: shine 1.5s linear infinite;
+			animation: shine 1.5s linear infinite;
 		}
 
 		@keyframes shine {
