@@ -54,7 +54,9 @@ function handleError(res) {
 
 
 
-/* Server (for simplicity's sake, this has been done with some very basic static routing instead of using Express or similar)
+/* Server
+Please note:
+For simplicity's sake, this has been done with some very basic static routing instead of using Express or similar.
 ---------------------------------------------------------------------------------------------------- */
 /* Create the server instance
 -------------------------------------------------- */

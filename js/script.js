@@ -9,6 +9,8 @@ import {
 
 
 /* Load the search component into the page
+Please note:
+We're loading the component this way as we have not included an advanced server such as Express (for simplicity's sake).
 ---------------------------------------------------------------------------------------------------- */
 document.addEventListener('DOMContentLoaded', () => {
 	// Target the <div> element
