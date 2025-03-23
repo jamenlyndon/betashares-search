@@ -567,7 +567,7 @@ function component_search_init() {
 	-------------------------------------------------- */
 	function suggestion_handleClick(event) {
 		// Get the text of the clicked suggestion
-		const suggestionText = event.target.closest('.suggestion')?.querySelector('.text');
+		const suggestionText = event.currentTarget?.querySelector('.text');
 
 		// If we found it
 		if (suggestionText) {
@@ -771,7 +771,7 @@ function component_search_init() {
 			// On input
 			field.addEventListener('input', (event) => {
 				// Target the field element
-				const fieldElement = event.target;
+				const fieldElement = event.currentTarget;
 
 				// Get the field value (as a number)
 				const fieldValue = parseFloat(fieldElement.value);
@@ -798,7 +798,7 @@ function component_search_init() {
 			// On input
 			field.addEventListener('input', (event) => {
 				// Target the field element
-				const fieldElement = event.target;
+				const fieldElement = event.currentTarget;
 
 				// Get the field value (as a number)
 				const fieldValue = parseFloat(fieldElement.value);
@@ -1252,7 +1252,7 @@ function component_search_init() {
 	let results_sort_order = '';
 	function results_tableHeaders_handleClick(event) {
 		// Target the table header
-		const tableHeader = event.target.closest('th');
+		const tableHeader = event.currentTarget;
 
 		// If we found the table header
 		if (tableHeader) {
@@ -1308,7 +1308,7 @@ function component_search_init() {
 		event.stopPropagation();
 
 		// Target the result container
-		const result = event.target.closest('.result');
+		const result = event.currentTarget.closest('.result');
 
 		// If we found the result container
 		if (result) {
@@ -1488,7 +1488,7 @@ function component_search_init() {
 	-------------------------------------------------- */
 	function pagination_changePage(event) {
 		// Get the "data-page" attribute of the clicked page
-		const page = event.target?.closest('.page')?.getAttribute('data-page');
+		const page = event.currentTarget?.getAttribute('data-page');
 
 		// If we found the "data-page" attribute
 		if (page) {
