@@ -930,7 +930,7 @@ function component_search_init() {
 		// For each table header
 		tableHeaders.forEach((tableHeader) => {
 			// Add a click event listener (this enables sorting)
-			tableHeader.addEventListener('click', results_tableHeader_handleClick);
+			tableHeader.addEventListener('click', results_tableHeaders_handleClick);
 		});
 	}
 
@@ -962,7 +962,20 @@ function component_search_init() {
 		// Get the sorting
 		let sort = '';
 		if (results_sort_name && results_sort_order) {
-			sort = results_sort_name + '.' + results_sort_order;
+			let sortOrder = results_sort_order;
+
+			// If we're sorting by an alphabetial field, let's reverse the sort order (this is more intuitive - as "descending" should infer "A -> Z")
+			if (results_sort_name === 'symbol' || results_sort_name === 'display_name' || results_sort_name === 'kind') {
+				if (results_sort_order === 'desc') {
+					sortOrder = 'asc';
+				}
+				else {
+					sortOrder = 'desc';
+				}
+			}
+
+			// Build the sorting param
+			sort = results_sort_name + '.' + sortOrder;
 		}
 
 		// Build the query params
@@ -1185,9 +1198,8 @@ function component_search_init() {
 
 		// If we're not keeping the filters and sorting
 		if (!keepFiltersAndSorting) {
-			// Reset the sorting
-			results_sort_name = '';
-			results_sort_order = '';
+			// Reset the table headers
+			results_tableHeaders_reset();
 
 			// Reset the filters form
 			dom_filters_form.reset();
@@ -1235,7 +1247,7 @@ function component_search_init() {
 	// Create variables to store the sorting
 	let results_sort_name = '';
 	let results_sort_order = '';
-	function results_tableHeader_handleClick(event) {
+	function results_tableHeaders_handleClick(event) {
 		// Target the table header
 		const tableHeader = event.target.closest('th');
 
@@ -1253,10 +1265,8 @@ function component_search_init() {
 			}
 			// Otherwise, we're not sorted descending
 			else {
-				// Remove any other sorted headers
-				dom_results_table?.querySelector('.sort')?.classList.remove('sort');
-				dom_results_table?.querySelector('.asc')?.classList.remove('asc');
-				dom_results_table?.querySelector('.desc')?.classList.remove('desc');
+				// Reset the table headers
+				results_tableHeaders_reset();
 
 				// Sort descending
 				tableHeader.classList.add('sort');
@@ -1270,6 +1280,20 @@ function component_search_init() {
 			// Reload the results (keep filters and sorting)
 			results_show(true);
 		}
+	}
+
+
+	/* Table headers - reset
+	-------------------------------------------------- */
+	function results_tableHeaders_reset() {
+		// Reset the sorting variables
+		results_sort_name = '';
+		results_sort_order = '';
+
+		// Remove all sorted headers
+		dom_results_table?.querySelector('.sort')?.classList.remove('sort');
+		dom_results_table?.querySelector('.asc')?.classList.remove('asc');
+		dom_results_table?.querySelector('.desc')?.classList.remove('desc');
 	}
 
 
