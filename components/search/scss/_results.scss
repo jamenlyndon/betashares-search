@@ -183,14 +183,16 @@
 					border-radius: v.$border_radius_s;
 					transition: opacity v.$transition_fast linear;
 
-					// Show the pseudo element on hover
-					@include m.hover {
-						opacity: 1;
-						background: v.$color_grey_light_3;
-					}
-
 					&:active {
 						background: darken(v.$color_grey_light_3, 3%);
+					}
+				}
+
+				// Show the results button on row hover
+				@include m.hover {
+					.resultButton {
+						opacity: 1;
+						background: v.$color_grey_light_3;
 					}
 				}
 
