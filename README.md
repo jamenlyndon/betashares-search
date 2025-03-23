@@ -1,12 +1,9 @@
 # Betashares search (code test)
 Hello and welcome to my code test submission for the position as a Lead Web Developer with Betashares!
 
+If you have the appropriate access, you can [view the test specification here](https://betashares.notion.site/Lead-Web-Developer-coding-test-1b9abb64f4128009918ff980c5438b00).
 
-
-## Requirements
-If you have the appropriate access, you can [view the requirements here](https://betashares.notion.site/Lead-Web-Developer-coding-test-1b9abb64f4128009918ff980c5438b00).
-
-For the most part these requirements made sense and I was able to follow them without issue.
+For the most part the specification made sense and I was able to develop this without issue.
 
 One thing to note is that I set this up based on the presumption that when you query the Search API with an empty `search_text` parameter, it returns _"popular / commonly searched"_ results (no endpoint was specified for this in the provided documentation).
 
@@ -65,7 +62,7 @@ index.html // The entry point for the app
 
 Please note: In the real world, this sort of thing would probably be comprised of many smaller components. For example; pagination, input fields, select fields, buttons, etc.
 
-However, as this was created without a supporting design system, I simply developed a single "search component" which handles all of this functionality and layout.
+However, as this was created without a supporting design system, I simply developed a single "search component" which handles all of the required functionality and layout.
 
 
 
