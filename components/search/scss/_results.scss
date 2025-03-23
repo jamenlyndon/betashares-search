@@ -319,6 +319,7 @@
 						margin-bottom: v.$gap_3;
 						font-weight: v.$font_weight_semiBold;
 						color: v.$color_grey_light_1;
+						white-space: normal;
 					}
 
 					// Info elements
@@ -343,6 +344,7 @@
 								margin-bottom: v.$gap_1_5;
 								font-weight: v.$font_weight_semiBold;
 								color: v.$color_grey_light_1;
+								white-space: normal;
 							}
 
 							.text {
@@ -350,6 +352,7 @@
 								flex-basis: 100%;
 								width: 100%;
 								color: v.$color_grey_light_1;
+								white-space: normal;
 							}
 
 							&.hidden {
