@@ -1,4 +1,4 @@
-# Betashares Search (code test)
+# Betashares search (code test)
 Hello and welcome to my code test submission for the position as a Lead Web Developer with Betashares!
 
 
@@ -43,19 +43,23 @@ To better understand where everything is and what it does, take a look at the be
 index.js // The world's most basic node server
 index.html // The entry point for the app
 
+// JS
 /js/
   script.js // The app's main JS (this loads the search component)
   /partials/ // Partial JS files which can be dynamically included anywhere (helper functions, etc)
 
+// SASS
 /scss/
-  style.scss // The app's main SCSS
-  /partials/ // Partial SCSS files which can be dynamically included anywhere (variables, typography, etc)
+  style.scss // The app's main SASS
+  /partials/ // Partial SASS files which can be dynamically included anywhere (variables, typography, etc)
 
-/fonts/ // The fonts
+// Fonts
+/fonts/
 
-/components/ // The components
-  /search/
-    /scss/ // The styles for the search component
+// Components
+/components/
+  /search/ // The search component
+    /scss/ // The search component's SASS
     _index.js // The search component's JS and HTML
 ```
 
