@@ -18,7 +18,7 @@
 ---------------------------------------------------------------------------------------------------- */
 /* Filter button
 -------------------------------------------------- */
-.search .filtersButton {
+.component_search .filtersButton {
 	@include m.reset;
 	display: flex;
 	gap: v.$gap_1;
@@ -53,7 +53,7 @@
 
 /* Filters popup
 -------------------------------------------------- */
-.search .filtersPopup {
+.component_search .filtersPopup {
 	display: flex;
 	flex-basis: 100%;
 	flex-wrap: wrap;
@@ -152,6 +152,7 @@
 					font-family: v.$font_family_primary;
 					font-weight: v.$font_weight_regular;
 					color: v.$color_black;
+					white-space: nowrap;
 					transition: border-color v.$transition_fast linear;
 
 					// Disable typography alignment

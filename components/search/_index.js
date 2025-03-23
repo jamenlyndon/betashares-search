@@ -13,7 +13,7 @@ import {
 ---------------------------------------------------------------------------------------------------- */
 function component_search_html() {
 	return (`
-		<div class='search'>
+		<div class='component_search'>
 
 
 			<!-- Field
@@ -272,7 +272,7 @@ function component_search_html() {
 			</div> <!-- .results -->
 
 
-		</div> <!-- .search -->
+		</div> <!-- .component_search -->
 	`);
 }
 
@@ -459,7 +459,7 @@ function component_search_init() {
 
 		window.requestAnimationFrame(() => {
 			// If we're not focused within the suggestions
-			if (!document.activeElement.closest('.search .suggestions')) {
+			if (!document.activeElement.closest('.component_search .suggestions')) {
 				// Hide the suggestions
 				suggestions_hide();
 			}
@@ -527,7 +527,7 @@ function component_search_init() {
 		}
 
 		// If we've got HTML output and we're focused in the field
-		if (htmlOutput && document.activeElement.closest('.search .field')) {
+		if (htmlOutput && document.activeElement.closest('.component_search .field')) {
 			// Show the suggestions
 			helper_removeClass('hidden', dom_suggestions);
 		}
@@ -553,7 +553,7 @@ function component_search_init() {
 		// Wait one animation frame for the focus to update in the browser
 		window.requestAnimationFrame(() => {
 			// If we're not focused within the suggestions or the input element
-			if (!document.activeElement.closest('.search .suggestions') && !document.activeElement.closest('.search .field')) {
+			if (!document.activeElement.closest('.component_search .suggestions') && !document.activeElement.closest('.component_search .field')) {
 				// Hide the suggestions
 				suggestions_hide();
 			}
@@ -565,7 +565,7 @@ function component_search_init() {
 	-------------------------------------------------- */
 	function suggestion_handleClick(event) {
 		// Get the text of the clicked suggestion
-		const suggestionText = event.target.closest('.search .suggestion')?.querySelector('.text');
+		const suggestionText = event.target.closest('.component_search .suggestion')?.querySelector('.text');
 
 		// If we found it
 		if (suggestionText) {
@@ -911,7 +911,7 @@ function component_search_init() {
 
 	/* Populate search results
 	-------------------------------------------------- */
-	function results_populate(scrollToResults = false) {
+	function results_populate() {
 		// Get the search text
 		const searchText = dom_field_input?.value;
 
@@ -1023,6 +1023,7 @@ function component_search_init() {
 						htmlOutput += `
 							<tr class='result'>
 								<td>
+									<a href='https://www.betashares.com.au/direct/get/?symbol=${data_fundCode}' class='resultButton'></a>
 									<button class='expandCollapseButton'>
 										<div class='icon'>keyboard_arrow_down</div>
 									</button> <!-- .expandCollapseButton -->
@@ -1144,9 +1145,6 @@ function component_search_init() {
 					// Attach event listeners to the results
 					const results = dom_results_table?.querySelectorAll('.result');
 					results.forEach((result) => {
-						// Result - click
-						result.addEventListener('click', results_result_handleClick);
-
 						// Target the expand / collapse button
 						const expandCollapseButton = result.querySelector('.expandCollapseButton');
 
@@ -1156,14 +1154,10 @@ function component_search_init() {
 							expandCollapseButton.addEventListener('click', results_expandCollapseButton_handleClick);
 						}
 					});
-
-					// Scroll to the search results if required
-					if (scrollToResults) {
-						// This is a great modern feature of JS (with baseline browser support)
-						// More info here: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView
-						dom_results.scrollIntoView();
-					}
 				}
+
+				// Remove the min height from the body (this helps to make the UX a litte nicer, stops the scroll from jumping around)
+				document.body.style.minHeight = '0px';
 			}
 		);
 	}
@@ -1212,6 +1206,12 @@ function component_search_init() {
 			pagination_page = 1;
 		}
 
+		// If we're keeping the filters or pagination
+		if (keepFiltersAndSorting || keepPagination) {
+			// Set a min height on the body (this helps to make the UX a litte nicer, stops the scroll from jumping around)
+			document.body.style.minHeight = document.body.offsetHeight + 'px';
+		}
+
 		// Hide results table, pagination, no results message
 		helper_addClass('hidden', dom_results_table);
 		helper_addClass('hidden', dom_results_pagination);
@@ -1222,7 +1222,7 @@ function component_search_init() {
 		helper_removeClass('hidden', dom_results);
 
 		// Populate the results
-		results_populate(keepPagination);
+		results_populate();
 	}
 
 
@@ -1295,20 +1295,6 @@ function component_search_init() {
 		dom_results_table?.querySelector('.sort')?.classList.remove('sort');
 		dom_results_table?.querySelector('.asc')?.classList.remove('asc');
 		dom_results_table?.querySelector('.desc')?.classList.remove('desc');
-	}
-
-
-	/* Result - handle click
-	-------------------------------------------------- */
-	function results_result_handleClick(event) {
-		// Get the fund code
-		const fundCode = event.target.closest('.result')?.querySelector('.fundCode .text')?.textContent;
-
-		// If we found the fund code
-		if (fundCode) {
-			// Open the Betashares invest page
-			window.location.href = 'https://www.betashares.com.au/direct/get/?symbol=' + fundCode;
-		}
 	}
 
 
@@ -1542,7 +1528,7 @@ function component_search_init() {
 	-------------------------------------------------- */
 	/* Component
 	------------------------- */
-	const dom_search = document.querySelector('.search');
+	const dom_search = document.querySelector('.component_search');
 
 
 	/* Field

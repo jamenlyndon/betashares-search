@@ -16,7 +16,7 @@
 
 /* Search results
 ---------------------------------------------------------------------------------------------------- */
-.search .results {
+.component_search .results {
 	display: flex;
 	flex-basis: 100%;
 	flex-wrap: wrap;
@@ -95,6 +95,10 @@
 					padding-bottom: v.$gap_3;
 					text-align: left;
 
+					// Disable clicking the first (empty) header
+					&:first-child {
+						pointer-events: none;
+					}
 
 					/* Content
 					------------------------- */
@@ -165,12 +169,11 @@
 			------------------------- */
 			tr:not(.expandCollapseContent) {
 				position: relative;
-				cursor: pointer;
 
-				// Use a pseudo element for the hover state (this allows us to use a border radius)
-				td:first-child::before {
-					content: '';
+				// Result button - links to the invest page
+				.resultButton {
 					position: absolute;
+					z-index: 1;
 					top: 0;
 					right: 0;
 					bottom: 0;
@@ -179,19 +182,14 @@
 					background: transparent;
 					border-radius: v.$border_radius_s;
 					transition: opacity v.$transition_fast linear;
-				}
 
-				// Show the pseudo element on hover
-				@include m.hover {
-					td:first-child::before {
+					// Show the pseudo element on hover
+					@include m.hover {
 						opacity: 1;
 						background: v.$color_grey_light_3;
 					}
-				}
 
-				// Darken the pseudo element on click
-				&:active {
-					td:first-child::before {
+					&:active {
 						background: darken(v.$color_grey_light_3, 3%);
 					}
 				}
@@ -244,6 +242,7 @@
 						padding: v.$gap_1_5;
 						background: v.$color_primary;
 						border-radius: 999px;
+						pointer-events: none;
 
 						.text {
 							font-weight: v.$font_weight_semiBold;
@@ -253,9 +252,10 @@
 
 					// Text
 					.text {
+						@include t.text_m;
 						position: relative;
 						z-index: 1;
-						@include t.text_m;
+						pointer-events: none;
 					}
 				}
 			}
@@ -264,8 +264,8 @@
 			/* Expanded row
 			------------------------- */
 			tr.expanded {
-				// Add a background using a pseudo element (this allows us to use a border radius)
-				td:first-child::before {
+				// Add a background to the result button
+				.resultButton {
 					opacity: 1;
 					background: v.$color_grey_light_4;
 					border-bottom-right-radius: 0;

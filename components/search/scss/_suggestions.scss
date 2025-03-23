@@ -16,7 +16,7 @@
 
 /* Search suggestions
 ---------------------------------------------------------------------------------------------------- */
-.search .suggestions {
+.component_search .suggestions {
 	position: absolute;
 	z-index: 2;
 	top: calc(100% + v.$gap_1);
