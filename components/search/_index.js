@@ -461,7 +461,7 @@ function component_search_init() {
 
 		window.requestAnimationFrame(() => {
 			// If we're not focused within the suggestions
-			if (!document.activeElement.closest('.component_search .suggestions')) {
+			if (!document.activeElement.closest('.suggestions')) {
 				// Hide the suggestions
 				suggestions_hide();
 			}
@@ -529,7 +529,7 @@ function component_search_init() {
 		}
 
 		// If we've got HTML output and we're focused in the field
-		if (htmlOutput && document.activeElement.closest('.component_search .field')) {
+		if (htmlOutput && document.activeElement.closest('.field')) {
 			// Show the suggestions
 			helper_removeClass('hidden', dom_suggestions);
 		}
@@ -555,7 +555,7 @@ function component_search_init() {
 		// Wait one animation frame for the focus to update in the browser
 		window.requestAnimationFrame(() => {
 			// If we're not focused within the suggestions or the input element
-			if (!document.activeElement.closest('.component_search .suggestions') && !document.activeElement.closest('.component_search .field')) {
+			if (!document.activeElement.closest('.suggestions') && !document.activeElement.closest('.field')) {
 				// Hide the suggestions
 				suggestions_hide();
 			}
@@ -567,7 +567,7 @@ function component_search_init() {
 	-------------------------------------------------- */
 	function suggestion_handleClick(event) {
 		// Get the text of the clicked suggestion
-		const suggestionText = event.target.closest('.component_search .suggestion')?.querySelector('.text');
+		const suggestionText = event.target.closest('.suggestion')?.querySelector('.text');
 
 		// If we found it
 		if (suggestionText) {
