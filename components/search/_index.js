@@ -384,7 +384,9 @@ function component_search_init() {
 		dom_field_input?.addEventListener('keydown', field_handleKeyDown);
 
 		// Search button - click
-		dom_field_button?.addEventListener('click', results_show);
+		dom_field_button?.addEventListener('click', (event) => {
+			results_show();
+		});
 	}
 
 
