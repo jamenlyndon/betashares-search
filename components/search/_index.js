@@ -519,8 +519,8 @@ function component_search_init() {
 
 				// Click
 				// This is a very strange fix, for some reason we need to use these events instead of "click" to make Safari work?
-				suggestion.addEventListener('touchend', suggestions_handleClick);
-				suggestion.addEventListener('mouseup', suggestions_handleClick);
+				suggestion.addEventListener('touchstart', suggestions_handleClick);
+				suggestion.addEventListener('mousedown', suggestions_handleClick);
 
 				// Key down
 				suggestion.addEventListener('keydown', suggestions_handleKeyDown);
@@ -570,11 +570,14 @@ function component_search_init() {
 
 		// If we found it
 		if (suggestionText) {
-			// Update the value of the field
-			dom_field_input.value = suggestionText?.innerText;
+			// Delay by 200ms - this helps the click to be more clear for decent ux - caused by a strange Safari fix (we have to use mousedown and touchstart rather than click?)
+			setTimeout(() => {
+				// Update the value of the field
+				dom_field_input.value = suggestionText?.innerText;
 
-			// Show the search results
-			results_show();
+				// Show the search results
+				results_show();
+			}, 200);
 		}
 	}
 
