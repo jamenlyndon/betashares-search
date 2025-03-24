@@ -190,7 +190,8 @@
 					transition: opacity v.$transition_fast linear;
 
 					&:active {
-						background: darken(v.$color_grey_light_3, 3%);
+						// We need to use !important here to override the hover mixin's active state defined below
+						background: darken(v.$color_grey_light_3, 3%) !important;
 					}
 				}
 

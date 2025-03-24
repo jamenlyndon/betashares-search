@@ -372,13 +372,10 @@ function component_search_init() {
 		dom_field_input?.addEventListener('blur', field_handleBlur);
 
 		// Input - focus
-		dom_field_input?.addEventListener('focus', field_handleFocusInputClick);
-
-		// Input - click
-		dom_field_input?.addEventListener('click', field_handleFocusInputClick);
+		dom_field_input?.addEventListener('focus', field_handleFocusInput);
 
 		// Input - input
-		dom_field_input?.addEventListener('input', field_handleFocusInputClick);
+		dom_field_input?.addEventListener('input', field_handleFocusInput);
 
 		// Input - key down
 		dom_field_input?.addEventListener('keydown', field_handleKeyDown);
@@ -390,9 +387,9 @@ function component_search_init() {
 	}
 
 
-	/* Handle focus / input / click
+	/* Handle focus / input
 	-------------------------------------------------- */
-	function field_handleFocusInputClick(event) {
+	function field_handleFocusInput(event) {
 		// Set the field's focus state
 		helper_addClass('focus', dom_field);
 
@@ -442,13 +439,13 @@ function component_search_init() {
 		// If they pressed "Arrow down"
 		else if (event.key === 'ArrowDown') {
 			// Focus next suggestion
-			suggestion_focusNext();
+			suggestions_focusNext();
 		}
 
 		// If they pressed "Arrow up"
 		else if (event.key === 'ArrowUp') {
 			// Focus previous suggestion
-			suggestion_focusPrev();
+			suggestions_focusPrev();
 		}
 	}
 
@@ -461,7 +458,7 @@ function component_search_init() {
 
 		window.requestAnimationFrame(() => {
 			// If we're not focused within the suggestions
-			if (!document.activeElement.closest('.suggestions')) {
+			if (!document.activeElement.closest('.component_search .suggestions')) {
 				// Hide the suggestions
 				suggestions_hide();
 			}
@@ -518,18 +515,20 @@ function component_search_init() {
 			const suggestions = dom_suggestions?.querySelectorAll('.suggestion');
 			suggestions.forEach((suggestion) => {
 				// Blur
-				suggestion.addEventListener('blur', suggestion_handleBlur);
+				suggestion.addEventListener('blur', suggestions_handleBlur);
 
 				// Click
-				suggestion.addEventListener('click', suggestion_handleClick);
+				// This is a very strange fix, for some reason we need to use these events instead of "click" to make Safari work?
+				suggestion.addEventListener('touchend', suggestions_handleClick);
+				suggestion.addEventListener('mouseup', suggestions_handleClick);
 
 				// Key down
-				suggestion.addEventListener('keydown', suggestion_handleKeyDown);
+				suggestion.addEventListener('keydown', suggestions_handleKeyDown);
 			});
 		}
 
 		// If we've got HTML output and we're focused in the field
-		if (htmlOutput && document.activeElement.closest('.field')) {
+		if (htmlOutput && document.activeElement.closest('.component_search .field')) {
 			// Show the suggestions
 			helper_removeClass('hidden', dom_suggestions);
 		}
@@ -551,11 +550,11 @@ function component_search_init() {
 
 	/* Handle blur
 	-------------------------------------------------- */
-	function suggestion_handleBlur(event) {
+	function suggestions_handleBlur(event) {
 		// Wait one animation frame for the focus to update in the browser
 		window.requestAnimationFrame(() => {
 			// If we're not focused within the suggestions or the input element
-			if (!document.activeElement.closest('.suggestions') && !document.activeElement.closest('.field')) {
+			if (!document.activeElement.closest('.component_search .suggestions') && !document.activeElement.closest('.component_search .field')) {
 				// Hide the suggestions
 				suggestions_hide();
 			}
@@ -565,7 +564,7 @@ function component_search_init() {
 
 	/* Handle click
 	-------------------------------------------------- */
-	function suggestion_handleClick(event) {
+	function suggestions_handleClick(event) {
 		// Get the text of the clicked suggestion
 		const suggestionText = event.currentTarget?.querySelector('.text');
 
@@ -582,7 +581,7 @@ function component_search_init() {
 
 	/* Handle key down
 	-------------------------------------------------- */
-	function suggestion_handleKeyDown(event) {
+	function suggestions_handleKeyDown(event) {
 		// If they pressed "Escape"
 		if (event.key === 'Escape') {
 			// Hide the suggestions
@@ -593,7 +592,7 @@ function component_search_init() {
 
 	/* Focus next suggestion
 	-------------------------------------------------- */
-	function suggestion_focusNext() {
+	function suggestions_focusNext() {
 		// If suggestions exist
 		if (dom_suggestions?.querySelectorAll('.suggestion').length) {
 			// Show the suggetions (but don't repopulate them)
@@ -660,7 +659,7 @@ function component_search_init() {
 
 	/* Focus previous suggestion
 	-------------------------------------------------- */
-	function suggestion_focusPrev() {
+	function suggestions_focusPrev() {
 		// If suggestions exist
 		if (dom_suggestions?.querySelectorAll('.suggestion').length) {
 			// Show the suggetions (but don't repopulate them)
@@ -1308,7 +1307,7 @@ function component_search_init() {
 		event.stopPropagation();
 
 		// Target the result container
-		const result = event.currentTarget.closest('.result');
+		const result = event.currentTarget?.closest('.component_search .result');
 
 		// If we found the result container
 		if (result) {

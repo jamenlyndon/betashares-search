@@ -192,9 +192,6 @@
 		// Disallow unnecessary semicolons
 		"@stylistic/no-extra-semi": "error",
 
-		// Disallow mixed binary operators
-		"@stylistic/no-mixed-operators": "error",
-
 		// Disallow multiple spaces
 		"@stylistic/no-multi-spaces": "error",
 
